@@ -36,6 +36,13 @@
 
     --nav-button: 0 0% 18%;
     --hero-bg: 0 0% 8%;
+
+    /* Light/cream palette — body sections */
+    --cream: 36 50% 96%;
+    --cream-elevated: 36 33% 92%;
+    --cream-border: 35 26% 86%;
+    --ink: 30 9% 9%;
+    --ink-muted: 34 9% 38%;
   }
 
   * {

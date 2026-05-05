@@ -9,7 +9,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-5">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-5 bg-hero-bg/80 backdrop-blur-xl border-b border-white/5">
       {/* Logo */}
       <a
         href="#top"

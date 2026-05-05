@@ -2,32 +2,40 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="relative py-24 md:py-32 px-6 md:px-10 border-t border-border/40 bg-background"
+      className="relative py-24 md:py-32 px-6 md:px-10 bg-hero-bg border-t border-cream-border"
     >
       <div className="max-w-4xl mx-auto text-center">
         <p className="text-primary text-xs font-semibold tracking-[0.3em] uppercase mb-4">
-          Contact
+          Partner
         </p>
-        <h2 className="text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] uppercase mb-6">
-          Build the <span className="text-primary">bridge</span> with us.
+        <h2 className="text-foreground text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.035em] uppercase mb-6">
+          Partner with us to build the studio behind the{" "}
+          <span className="text-primary">next generation of experts.</span>
         </h2>
         <p className="text-foreground/70 text-lg md:text-xl font-light max-w-2xl mx-auto mb-12 leading-relaxed">
           We're shipping six Self-RPG Apps in the next twelve months and
-          owning the category in twenty-four. If you back category-defining
-          mobile, let's talk.
+          owning the category in twenty-four. We're talking to investors,
+          publishers, and SMEs who want to build the next decade of mobile
+          self-improvement with us.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="mailto:invest@looplab.studio"
             className="bg-primary text-primary-foreground px-8 py-4 text-sm rounded-sm hover:brightness-110 transition-all active:scale-[0.97] uppercase tracking-widest font-bold"
           >
-            invest@looplab.studio
+            Investors
+          </a>
+          <a
+            href="mailto:partner@looplab.studio"
+            className="bg-white/[0.06] border border-white/15 text-foreground px-8 py-4 text-sm rounded-sm hover:bg-white/[0.1] transition-all active:scale-[0.97] uppercase tracking-widest font-bold"
+          >
+            Publishers / SMEs
           </a>
           <a
             href="mailto:hello@looplab.studio"
-            className="bg-white/[0.05] border border-white/15 text-foreground px-8 py-4 text-sm rounded-sm hover:bg-white/[0.08] transition-all active:scale-[0.97] uppercase tracking-widest font-bold"
+            className="text-foreground/70 hover:text-foreground px-4 py-4 text-sm transition-colors uppercase tracking-widest font-bold"
           >
-            General contact
+            General
           </a>
         </div>
         <p className="text-muted-foreground/60 text-xs font-light mt-12 tracking-wider">

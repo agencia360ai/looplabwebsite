@@ -42,6 +42,11 @@ const config: Config = {
         },
         "nav-button": "hsl(var(--nav-button))",
         "hero-bg": "hsl(var(--hero-bg))",
+        cream: "hsl(var(--cream))",
+        "cream-elevated": "hsl(var(--cream-elevated))",
+        "cream-border": "hsl(var(--cream-border))",
+        ink: "hsl(var(--ink))",
+        "ink-muted": "hsl(var(--ink-muted))",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -35,16 +35,16 @@ export default function ProcessSection() {
   return (
     <section
       id="process"
-      className="relative py-24 md:py-32 px-6 md:px-10 border-t border-border/40"
+      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream border-t border-cream-border"
     >
       <div className="max-w-6xl mx-auto">
         <p className="text-primary text-xs font-semibold tracking-[0.3em] uppercase mb-4">
           The Process
         </p>
-        <h2 className="text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] uppercase mb-6 max-w-4xl">
+        <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] uppercase mb-6 max-w-4xl">
           We <span className="text-primary">run the loop.</span>
         </h2>
-        <p className="text-foreground/70 text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed">
+        <p className="text-ink-muted text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed">
           The retention machinery of mobile games maps one-to-one onto skill
           acquisition. Most operators outside hyper-casual aren't running the
           playbook. We are.
@@ -53,15 +53,15 @@ export default function ProcessSection() {
           {PILLARS.map((p) => (
             <div
               key={p.n}
-              className="bg-white/[0.03] border border-white/10 rounded-lg p-7 hover:border-primary/40 transition-colors"
+              className="bg-cream-elevated border border-cream-border rounded-lg p-7 hover:border-primary/50 hover:shadow-lg hover:shadow-ink/5 transition-all"
             >
               <p className="text-primary text-xs font-semibold tracking-[0.25em] mb-5">
                 {p.n}
               </p>
-              <h3 className="text-foreground text-xl font-semibold mb-3 tracking-tight">
+              <h3 className="text-ink text-xl font-semibold mb-3 tracking-tight">
                 {p.title}
               </h3>
-              <p className="text-foreground/60 text-sm font-light leading-relaxed">
+              <p className="text-ink-muted text-sm font-light leading-relaxed">
                 {p.body}
               </p>
             </div>
