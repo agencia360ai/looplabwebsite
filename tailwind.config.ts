@@ -13,6 +13,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sora: ["Sora", "sans-serif"],
+        readex: ["Readex Pro", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

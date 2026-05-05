@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
-  { label: "Apps", href: "#apps" },
-  { label: "Studio", href: "#studio" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "#contact" },
+  { label: "apps", href: "#apps" },
+  { label: "studio", href: "#studio" },
+  { label: "process", href: "#process" },
+  { label: "contact", href: "#contact" },
 ];
 
 export function LooplabMark({ className = "" }: { className?: string }) {
@@ -31,34 +30,39 @@ export function LooplabMark({ className = "" }: { className?: string }) {
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 lg:px-16 py-4 md:py-5 bg-hero-bg/80 backdrop-blur-xl border-b border-white/5">
-      <a href="#top" className="flex items-center text-xl">
-        <LooplabMark className="h-7 md:h-8 w-auto" />
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-3 px-4 md:px-10 pt-4 md:pt-6">
+      {/* Left pill: logo */}
+      <a
+        href="#top"
+        className="flex items-center gap-2 bg-neutral-900/90 backdrop-blur rounded-full pl-4 pr-5 py-2.5 hover:bg-neutral-800/90 transition-colors"
+      >
+        <LooplabMark className="h-5 md:h-6 w-auto" />
       </a>
 
-      <div className="hidden md:flex items-center gap-8">
+      {/* Center pill: nav */}
+      <div className="hidden md:flex items-center gap-1 bg-neutral-900/90 backdrop-blur rounded-full px-2 py-1.5">
         {NAV_LINKS.map((link) => (
           <a
             key={link.label}
             href={link.href}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest"
+            className="text-neutral-300 hover:text-white transition-colors text-sm px-4 py-2 rounded-full lowercase"
           >
             {link.label}
           </a>
         ))}
       </div>
 
-      <Button
-        variant="navCta"
-        size="lg"
-        className="hidden md:inline-flex rounded-lg uppercase text-xs tracking-widest px-6"
+      {/* Right button */}
+      <button
+        type="button"
+        className="bg-white text-black text-sm font-medium rounded-full px-5 md:px-6 py-2.5 md:py-3 hover:bg-neutral-200 transition-colors lowercase"
         onClick={() => {
           const el = document.querySelector("#contact");
           el?.scrollIntoView({ behavior: "smooth" });
         }}
       >
-        Partner
-      </Button>
+        partner
+      </button>
     </nav>
   );
 }

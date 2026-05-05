@@ -62,3 +62,16 @@
     color: hsl(var(--foreground));
   }
 }
+
+@layer utilities {
+  .hero-title {
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+  .text-brand-gradient {
+    background: linear-gradient(90deg, #a855f7 0%, #ec4899 55%, #fb923c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
