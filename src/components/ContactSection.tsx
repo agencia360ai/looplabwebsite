@@ -9,14 +9,12 @@ export default function ContactSection() {
           Partner
         </p>
         <h2 className="text-foreground text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.1] tracking-[-0.035em] uppercase mb-6">
-          Partner with us to build the studio behind the{" "}
+          Build the studio behind the{" "}
           <span className="text-primary">next generation of experts.</span>
         </h2>
         <p className="text-foreground/70 text-lg md:text-xl font-light max-w-2xl mx-auto mb-12 leading-relaxed">
-          We're shipping six Self-RPG Apps in the next twelve months and
-          owning the category in twenty-four. We're talking to investors,
-          publishers, and SMEs who want to build the next decade of mobile
-          self-improvement with us.
+          Six Self-RPG Apps in twelve months. Talking to investors,
+          publishers, and SMEs.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a

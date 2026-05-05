@@ -74,8 +74,7 @@ export default function AppsSection() {
         </h2>
         <p className="text-ink-muted text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed">
           Each one a complete production loop — not a content library.
-          Identity-first. Mascot-led. Daily. The retention machinery of mobile
-          games, applied to the things actually worth getting good at.
+          Identity-first. Mascot-led. Daily.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {APPS.map((app, i) => (

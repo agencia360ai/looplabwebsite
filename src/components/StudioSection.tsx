@@ -29,16 +29,8 @@ export default function StudioSection() {
               .
             </p>
             <p>
-              Every breakout self-improvement app — Duolingo, Strava, Calm —
-              uses a fraction of the production rigor mobile-games studios
-              have built. Each took 4–7 years to build one vertical. With our
-              process, we ship a flagship-quality MVP in weeks and a polished
-              launch product in under four months.
-            </p>
-            <p>
-              Companies entering from learning-app or wellness-app backgrounds
-              lack the production system. Studios that have it are still
-              shipping hyper-casual.
+              Studios entering from learning or wellness lack the production
+              system. Studios that have it are still shipping hyper-casual.
             </p>
             <p className="text-ink font-medium text-xl">
               Looplab is the bridge.

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
@@ -7,19 +8,34 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
+export function LooplabMark({ className = "" }: { className?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <span
+        className={`bg-gradient-to-r from-[#A855F7] via-[#EC4899] to-[#FB923C] bg-clip-text text-transparent font-bold tracking-tight ${className}`}
+      >
+        looplab
+      </span>
+    );
+  }
+  return (
+    <img
+      src="/looplab-logo.png"
+      alt="Looplab"
+      onError={() => setFailed(true)}
+      className={className}
+    />
+  );
+}
+
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 lg:px-16 py-5 bg-hero-bg/80 backdrop-blur-xl border-b border-white/5">
-      {/* Logo */}
-      <a
-        href="#top"
-        className="text-foreground text-xl font-semibold tracking-tight"
-      >
-        LOOPLAB
-        <span className="text-primary">.</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 lg:px-16 py-4 md:py-5 bg-hero-bg/80 backdrop-blur-xl border-b border-white/5">
+      <a href="#top" className="flex items-center text-xl">
+        <LooplabMark className="h-7 md:h-8 w-auto" />
       </a>
 
-      {/* Center nav */}
       <div className="hidden md:flex items-center gap-8">
         {NAV_LINKS.map((link) => (
           <a
@@ -32,7 +48,6 @@ export default function Navbar() {
         ))}
       </div>
 
-      {/* CTA */}
       <Button
         variant="navCta"
         size="lg"
@@ -42,7 +57,7 @@ export default function Navbar() {
           el?.scrollIntoView({ behavior: "smooth" });
         }}
       >
-        Invest
+        Partner
       </Button>
     </nav>
   );
