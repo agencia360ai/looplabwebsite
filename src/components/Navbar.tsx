@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 const NAV_LINKS = [
   { label: "Apps", href: "#apps" },
   { label: "Studio", href: "#studio" },
-  { label: "Founder", href: "#founder" },
   { label: "Process", href: "#process" },
   { label: "Contact", href: "#contact" },
 ];
