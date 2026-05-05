@@ -36,9 +36,9 @@ const APPS: App[] = [
     id: "rapper",
     title: "Become a Rapper",
     tagline: "Bars. Flow drills. Beat-bank cyphers.",
-    mascot: null,
-    status: "On the loop",
-    featured: false,
+    mascot: "/mascots/rapper-mic.png",
+    status: "In production",
+    featured: true,
   },
   {
     id: "baker",

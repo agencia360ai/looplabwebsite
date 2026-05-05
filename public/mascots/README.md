@@ -14,9 +14,11 @@ title block still renders.
 | `boxer-guard.png`    | (reserved)           | Boxer in defensive guard stance      |
 | `baker-flame.png`    | Apps → Baker         | Chef with flaming pan + spatula      |
 | `baker-stand.png`    | (reserved)           | Chef with arms crossed, neutral pose |
+| `rapper-mic.png`     | Apps → Rapper        | Rapper spitting into mic, hand out   |
+| `rapper-point.png`   | (reserved)           | Rapper pointing, hands-in-pockets    |
 
 Recommended: ~1024×1536 PNG, transparent background, character anchored to the
 bottom of the canvas.
 
-To add a Rapper or Calligrapher mascot later, render the same way and wire the
-filename into `src/components/AppsSection.tsx`.
+To add a Calligrapher mascot later, render the same way and wire the filename
+into `src/components/AppsSection.tsx`.
