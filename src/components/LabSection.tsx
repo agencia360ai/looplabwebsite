@@ -1,9 +1,12 @@
+import { useState } from "react";
+
 type Project = {
   id: string;
   emoji: string;
   title: string;
   status: string;
   statusTone: "live" | "dev" | "concept" | "next";
+  screen: string | null;
   mascot: string | null;
   alt: string | null;
 };
@@ -15,8 +18,9 @@ const PROJECTS: Project[] = [
     title: "taekwondo.",
     status: "almost ready",
     statusTone: "live",
+    screen: "/screens/taekwondo-home.png",
     mascot: "/mascots/sensei-fight.png",
-    alt: "Sensei in fighting stance",
+    alt: "Taekwondo app home screen",
   },
   {
     id: "boxing",
@@ -24,8 +28,9 @@ const PROJECTS: Project[] = [
     title: "boxing.",
     status: "in development",
     statusTone: "dev",
+    screen: "/screens/boxing-home.png",
     mascot: "/mascots/boxer-jab.png",
-    alt: "Boxer throwing a jab",
+    alt: "Boxing app",
   },
   {
     id: "chef",
@@ -33,8 +38,9 @@ const PROJECTS: Project[] = [
     title: "chef training.",
     status: "in concept",
     statusTone: "concept",
+    screen: "/screens/chef-home.png",
     mascot: "/mascots/baker-flame.png",
-    alt: "Chef with flaming pan",
+    alt: "Chef training app",
   },
   {
     id: "next",
@@ -42,6 +48,7 @@ const PROJECTS: Project[] = [
     title: "next loops.",
     status: "rapper · racer · baker · coming soon",
     statusTone: "next",
+    screen: null,
     mascot: null,
     alt: null,
   },
@@ -81,20 +88,34 @@ export default function LabSection() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const [screenFailed, setScreenFailed] = useState(false);
+  const showScreen = project.screen && !screenFailed;
+  const showMascot = !showScreen && project.mascot;
+
   return (
     <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-ink/5 hover:-translate-y-1 transition-all">
       <div className="aspect-[3/4] relative flex items-end justify-center bg-gradient-to-b from-cream-elevated to-cream overflow-hidden">
-        <span className="absolute top-5 left-5 text-3xl opacity-60 select-none">
+        <span className="absolute top-5 left-5 text-3xl opacity-60 select-none z-10">
           {project.emoji}
         </span>
-        {project.mascot ? (
+        {showScreen && (
           <img
-            src={project.mascot}
+            src={project.screen!}
+            alt={project.alt ?? project.title}
+            loading="lazy"
+            onError={() => setScreenFailed(true)}
+            className="absolute inset-x-0 top-6 mx-auto h-[94%] w-auto object-contain object-top transition-transform duration-500 group-hover:scale-[1.03] drop-shadow-xl"
+          />
+        )}
+        {showMascot && (
+          <img
+            src={project.mascot!}
             alt={project.alt ?? project.title}
             loading="lazy"
             className="h-[88%] w-auto object-contain object-bottom transition-transform duration-500 group-hover:scale-[1.05]"
           />
-        ) : (
+        )}
+        {!showScreen && !showMascot && (
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="text-[6rem] text-ink/[0.06] font-bold leading-none select-none">
               ?
