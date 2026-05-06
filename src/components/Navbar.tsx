@@ -20,10 +20,12 @@ export function LooplabMark({ className = "" }: { className?: string }) {
   }
   return (
     <img
-      src="/looplab-logo.png"
+      src="/looplab-logo.svg"
       alt="Looplab"
       onError={() => setFailed(true)}
       className={className}
+      width="120"
+      height="24"
     />
   );
 }
