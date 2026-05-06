@@ -1,20 +1,22 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import AppsSection from "@/components/AppsSection";
-import StudioSection from "@/components/StudioSection";
-import ProcessSection from "@/components/ProcessSection";
-import ContactSection from "@/components/ContactSection";
+import GenreSection from "@/components/GenreSection";
+import WhatWeMakeSection from "@/components/WhatWeMakeSection";
+import PlaybookSection from "@/components/PlaybookSection";
+import LabSection from "@/components/LabSection";
+import JoinSection from "@/components/JoinSection";
 import Footer from "@/components/Footer";
 
 export default function Index() {
   return (
-    <div className="bg-hero-bg min-h-screen">
+    <div className="bg-black min-h-screen">
       <Navbar />
       <HeroSection />
-      <AppsSection />
-      <StudioSection />
-      <ProcessSection />
-      <ContactSection />
+      <GenreSection />
+      <WhatWeMakeSection />
+      <PlaybookSection />
+      <LabSection />
+      <JoinSection />
       <Footer />
     </div>
   );

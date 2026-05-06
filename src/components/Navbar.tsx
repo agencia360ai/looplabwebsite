@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 const NAV_LINKS = [
-  { label: "apps", href: "#apps" },
-  { label: "studio", href: "#studio" },
-  { label: "process", href: "#process" },
-  { label: "contact", href: "#contact" },
+  { label: "genre", href: "#genre" },
+  { label: "what we make", href: "#what" },
+  { label: "playbook", href: "#process" },
+  { label: "lab", href: "#lab" },
 ];
 
 export function LooplabMark({ className = "" }: { className?: string }) {
@@ -57,7 +57,7 @@ export default function Navbar() {
         type="button"
         className="bg-white text-black text-sm font-medium rounded-full px-5 md:px-6 py-2.5 md:py-3 hover:bg-neutral-200 transition-colors lowercase"
         onClick={() => {
-          const el = document.querySelector("#contact");
+          const el = document.querySelector("#join");
           el?.scrollIntoView({ behavior: "smooth" });
         }}
       >
