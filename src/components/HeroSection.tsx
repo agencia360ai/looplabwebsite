@@ -80,24 +80,11 @@ export default function HeroSection() {
         <div className="absolute left-4 md:left-20 bottom-[24%] md:bottom-[22%] z-10">
           <div className="flex items-center gap-3">
             <span className="text-4xl md:text-5xl font-medium tracking-tight text-white">
-              6
+              44m+
             </span>
             <div className="hidden md:block h-px w-24 bg-white/40 rotate-[-20deg]" />
           </div>
           <p className="text-xs md:text-sm text-white/70 mt-1 lowercase">
-            apps in 12 months
-          </p>
-        </div>
-
-        {/* Bottom-right stat */}
-        <div className="absolute right-4 md:right-20 bottom-[24%] md:bottom-[22%] z-10 text-right">
-          <div className="flex items-center gap-3 justify-end">
-            <div className="hidden md:block h-px w-24 bg-white/40 rotate-[-20deg]" />
-            <span className="text-4xl md:text-5xl font-medium tracking-tight text-white">
-              44m+
-            </span>
-          </div>
-          <p className="text-xs md:text-sm text-white/70 mt-1 text-right lowercase">
             downloads
           </p>
         </div>

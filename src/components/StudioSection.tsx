@@ -1,8 +1,6 @@
 const STATS = [
   { value: "14", label: "Years making mobile games" },
-  { value: "44M+", label: "Downloads" },
-  { value: "6", label: "Self-RPG apps in 12 months" },
-  { value: "36%", label: "Category YoY growth" },
+  { value: "44M+", label: "Downloads in our portfolio" },
 ];
 
 export default function StudioSection() {

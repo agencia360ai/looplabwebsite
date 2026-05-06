@@ -61,7 +61,7 @@ export default function Navbar() {
           el?.scrollIntoView({ behavior: "smooth" });
         }}
       >
-        partner
+        say hi
       </button>
     </nav>
   );
