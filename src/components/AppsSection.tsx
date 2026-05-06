@@ -69,12 +69,12 @@ export default function AppsSection() {
           The Catalog
         </p>
         <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] uppercase mb-6 max-w-3xl">
-          Six Self-RPG Apps.{" "}
+          Six obsessions.{" "}
           <span className="text-primary">Twelve months.</span>
         </h2>
         <p className="text-ink-muted text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed">
-          Each one a complete production loop — not a content library.
-          Identity-first. Mascot-led. Daily.
+          Each app is a complete game loop wrapped around a real-world skill.
+          Mascot-led. Identity-first. Five minutes a day.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {APPS.map((app, i) => (

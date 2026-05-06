@@ -1,7 +1,7 @@
 const STATS = [
-  { value: "14", label: "Years shipping mobile" },
-  { value: "200+", label: "Prototypes" },
+  { value: "14", label: "Years making mobile games" },
   { value: "44M+", label: "Downloads" },
+  { value: "6", label: "Self-RPG apps in 12 months" },
   { value: "36%", label: "Category YoY growth" },
 ];
 
@@ -16,23 +16,25 @@ export default function StudioSection() {
           The Studio
         </p>
         <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.04em] uppercase mb-12 max-w-4xl">
-          The earned <span className="text-primary">secret.</span>
+          We come from <span className="text-primary">games.</span>
         </h2>
         <div className="grid lg:grid-cols-5 gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-3 space-y-5 text-ink/85 text-lg font-light leading-relaxed">
             <p>
-              The market thinks gamified-learning is a content problem. We
-              know it's a{" "}
-              <span className="text-ink font-medium">
-                production-system problem
-              </span>
-              .
+              Fourteen years of mobile games. Forty-four million downloads.
+              We learned our craft on hypercasual — shipping fast, testing
+              brutally, finding what makes someone tap once more.
             </p>
             <p>
-              Studios entering from learning or wellness lack the production
-              system. Studios that have it are still shipping hyper-casual.
+              We know what makes a daily loop click. The micro-feedback. The
+              cohort-tested retention curves. The production speed that lets
+              a studio kill a bad idea in a week instead of a year.
             </p>
-            <p className="text-ink font-medium text-xl">
+            <p>
+              Now we're pointing all of that at something bigger than fun.{" "}
+              <span className="text-ink font-medium">Real mastery.</span>
+            </p>
+            <p className="text-ink font-medium text-xl pt-2">
               Looplab is the bridge.
             </p>
           </div>

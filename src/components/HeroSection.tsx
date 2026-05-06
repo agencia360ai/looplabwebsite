@@ -38,11 +38,11 @@ export default function HeroSection() {
           <div className="flex items-center gap-3 justify-end">
             <div className="hidden md:block h-px w-24 bg-white/40 rotate-[20deg]" />
             <span className="text-4xl md:text-5xl font-medium tracking-tight text-white">
-              +14
+              14
             </span>
           </div>
           <p className="text-xs md:text-sm text-white/70 mt-1 text-right lowercase">
-            years shipping
+            years making games
           </p>
         </div>
 
@@ -68,24 +68,24 @@ export default function HeroSection() {
 
         {/* Description */}
         <p
-          className="absolute left-4 md:left-10 top-[44%] max-w-[260px] text-[14px] md:text-[15px] leading-snug text-white/90 opacity-0 animate-fade-up lowercase"
+          className="absolute left-4 md:left-10 top-[44%] max-w-[260px] md:max-w-[300px] text-[14px] md:text-[15px] leading-snug text-white/90 opacity-0 animate-fade-up lowercase"
           style={{ animationDelay: "0.6s" }}
         >
-          master a craft.
+          games where your daily practice is the game.
           <br />
-          one loop at a time.
+          master a craft, one loop at a time.
         </p>
 
         {/* Bottom-left stat */}
         <div className="absolute left-4 md:left-20 bottom-[24%] md:bottom-[22%] z-10">
           <div className="flex items-center gap-3">
             <span className="text-4xl md:text-5xl font-medium tracking-tight text-white">
-              200+
+              6
             </span>
             <div className="hidden md:block h-px w-24 bg-white/40 rotate-[-20deg]" />
           </div>
           <p className="text-xs md:text-sm text-white/70 mt-1 lowercase">
-            prototypes shipped
+            apps in 12 months
           </p>
         </div>
 
