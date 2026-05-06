@@ -23,7 +23,7 @@ export default function JoinSection() {
         </p>
         <a
           href="mailto:hello@looplab.studio"
-          className="inline-block bg-brand-gradient text-white px-10 py-4 text-sm rounded-full hover:brightness-110 active:scale-[0.97] transition-all uppercase tracking-widest font-semibold"
+          className="inline-block bg-brand-gradient text-white px-10 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/25 active:scale-[0.97] transition-all uppercase tracking-widest font-semibold cursor-pointer"
         >
           hello@looplab.studio
         </a>

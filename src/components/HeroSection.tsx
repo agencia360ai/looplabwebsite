@@ -43,7 +43,7 @@ export default function HeroSection() {
         >
           <button
             type="button"
-            className="bg-brand-gradient text-white font-medium px-8 py-3.5 text-sm rounded-full hover:brightness-110 active:scale-[0.97] transition-all lowercase tracking-wide"
+            className="bg-brand-gradient text-white font-medium px-8 py-3.5 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/20 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer"
             onClick={() => {
               const el = document.querySelector("#join");
               el?.scrollIntoView({ behavior: "smooth" });
@@ -53,7 +53,7 @@ export default function HeroSection() {
           </button>
           <button
             type="button"
-            className="border border-white/20 text-white font-medium px-8 py-3.5 text-sm rounded-full hover:bg-white/5 active:scale-[0.97] transition-all lowercase tracking-wide"
+            className="border border-white/20 text-white font-medium px-8 py-3.5 text-sm rounded-full hover:bg-white/5 hover:border-white/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer"
             onClick={() => {
               const el = document.querySelector("#genre");
               el?.scrollIntoView({ behavior: "smooth" });
@@ -116,7 +116,7 @@ function MascotImage({
         src={img}
         alt={discipline}
         loading="eager"
-        className="block w-full h-auto max-h-[26vh] md:max-h-[28vh] object-contain object-bottom mx-auto"
+        className="block w-full h-auto max-h-[26vh] md:max-h-[28vh] object-contain object-bottom mx-auto drop-shadow-2xl"
       />
     </div>
   );

@@ -61,6 +61,13 @@ const TONE_CLASSES: Record<Project["statusTone"], string> = {
   next: "bg-ink/5 text-ink-muted border-cream-border",
 };
 
+const TONE_BG: Record<Project["statusTone"], string> = {
+  live: "from-emerald-100/60 to-cream",
+  dev: "from-amber-100/60 to-cream",
+  concept: "from-sky-100/60 to-cream",
+  next: "from-cream-elevated to-cream",
+};
+
 export default function LabSection() {
   return (
     <section
@@ -93,9 +100,14 @@ function ProjectCard({ project }: { project: Project }) {
   const showMascot = !showScreen && project.mascot;
 
   return (
-    <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-ink/5 hover:-translate-y-1 transition-all">
-      <div className="aspect-[3/4] relative flex items-end justify-center bg-gradient-to-b from-cream-elevated to-cream overflow-hidden">
-        <span className="absolute top-5 left-5 text-3xl opacity-60 select-none z-10">
+    <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer">
+      <div
+        className={`aspect-[3/4] relative flex items-end justify-center bg-gradient-to-b ${TONE_BG[project.statusTone]} overflow-hidden`}
+      >
+        <span
+          className="absolute top-5 left-5 text-3xl opacity-60 select-none z-10"
+          aria-hidden="true"
+        >
           {project.emoji}
         </span>
         {showScreen && (
@@ -112,13 +124,28 @@ function ProjectCard({ project }: { project: Project }) {
             src={project.mascot!}
             alt={project.alt ?? project.title}
             loading="lazy"
-            className="h-[88%] w-auto object-contain object-bottom transition-transform duration-500 group-hover:scale-[1.05]"
+            className="h-[88%] w-auto object-contain object-bottom transition-transform duration-500 group-hover:scale-[1.05] drop-shadow-lg"
           />
         )}
         {!showScreen && !showMascot && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-[6rem] text-ink/[0.06] font-bold leading-none select-none">
-              ?
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-ink/10"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 12h8" />
+              <path d="M12 8v8" />
+            </svg>
+            <span className="text-ink/20 text-xs font-medium tracking-wider uppercase">
+              coming soon
             </span>
           </div>
         )}

@@ -52,7 +52,7 @@ export default function WhatWeMakeSection() {
 
 function PillarCard({ pillar }: { pillar: Pillar }) {
   return (
-    <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all">
+    <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer">
       <div
         className={`aspect-[4/3] relative flex items-center justify-center overflow-hidden bg-gradient-to-br ${pillar.gradient}`}
       >

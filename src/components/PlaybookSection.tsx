@@ -43,7 +43,7 @@ export default function PlaybookSection() {
           {STEPS.map((s) => (
             <div
               key={s.n}
-              className="bg-cream-elevated border border-cream-border rounded-2xl p-7 hover:border-primary/40 hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all"
+              className="bg-cream-elevated border border-cream-border rounded-2xl p-7 hover:border-primary/40 hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer"
             >
               <p className="text-brand-gradient text-xs font-semibold tracking-[0.25em] mb-5">
                 {s.n}
