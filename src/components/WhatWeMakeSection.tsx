@@ -7,20 +7,20 @@ type Pillar = {
 
 const PILLARS: Pillar[] = [
   {
-    title: "real-world routines.",
-    body: "daily drills. weekly projects. lifetime progress.",
+    title: "routines that feel like games.",
+    body: "real-world practice, packaged into loops you actually want to come back to.",
     gradient: "from-[#a855f7] via-[#a855f7]/70 to-[#7c3aed]",
     icon: <LoopIcon />,
   },
   {
-    title: "game mechanics.",
-    body: "xp. levels. streaks. the hooks that already work.",
+    title: "hooks that keep you progressing.",
+    body: "xp, levels, streaks — the mechanics proven to make people show up tomorrow.",
     gradient: "from-[#ec4899] via-[#ec4899]/70 to-[#db2777]",
     icon: <LevelUpIcon />,
   },
   {
-    title: "social motivation.",
-    body: "show off what you've earned. compete with the people you respect.",
+    title: "moments worth showing off.",
+    body: "earn badges, climb leaderboards, compete with the people whose respect you want.",
     gradient: "from-[#fb923c] via-[#fb923c]/70 to-[#ea580c]",
     icon: <TrophyIcon />,
   },

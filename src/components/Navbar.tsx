@@ -41,7 +41,7 @@ export default function Navbar() {
           href="#top"
           className="flex items-center gap-2 bg-neutral-900/90 backdrop-blur rounded-full pl-4 pr-5 py-2.5 hover:bg-neutral-800/90 transition-colors cursor-pointer"
         >
-          <LooplabMark className="h-5 md:h-6 w-auto" />
+          <LooplabMark className="h-7 md:h-9 w-auto" />
         </a>
 
         {/* Center pill: nav (desktop) */}

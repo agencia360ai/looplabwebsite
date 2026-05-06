@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ScrollSequence from "@/components/ScrollSequence";
 import GenreSection from "@/components/GenreSection";
 import WhatWeMakeSection from "@/components/WhatWeMakeSection";
 import PlaybookSection from "@/components/PlaybookSection";
@@ -13,7 +12,6 @@ export default function Index() {
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroSection />
-      <ScrollSequence />
       <GenreSection />
       <WhatWeMakeSection />
       <PlaybookSection />
