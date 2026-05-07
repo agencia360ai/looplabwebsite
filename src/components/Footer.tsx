@@ -2,8 +2,8 @@ import { LooplabMark } from "./Navbar";
 
 export default function Footer() {
   return (
-    <footer className="bg-hero-bg border-t border-white/5 px-6 md:px-10 py-10">
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
+    <footer className="bg-hero-bg border-t border-white/5 px-6 md:px-10 pt-7 pb-5">
+      <div className="max-w-6xl mx-auto flex flex-col items-center gap-3">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 w-full">
           <LooplabMark className="h-7 w-auto" />
           <p className="text-muted-foreground/70 text-xs tracking-wide text-center">
@@ -15,13 +15,13 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Backed by — small */}
-        <div className="flex items-center gap-3 pt-4 border-t border-white/5 w-full justify-center">
+        {/* Backed by — small, tight spacing, no divider */}
+        <div className="flex items-center gap-3 justify-center">
           <span className="text-muted-foreground/50 text-[10px] tracking-[0.2em] uppercase">
             backed by
           </span>
           <a
-            href="https://fivebits.co"
+            href="https://fivebits.gs"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Five Bits"
