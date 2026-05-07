@@ -8,7 +8,7 @@ const POSTER_FRAME = 30;
 const CYCLING_WORDS = [
   "a master.",
   "a champion.",
-  "obsessed.",
+  "addicted.",
   "unstoppable.",
 ];
 
@@ -34,6 +34,7 @@ export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
+  const spotlightRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const lastFrameRef = useRef<number>(-1);
   const rafRef = useRef<number>(0);
@@ -109,7 +110,8 @@ export default function HeroSection() {
       const { w, h, dpr } = canvasSizeRef.current;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
+      // 1.18x multiplier — character feels more substantial / less thin
+      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight) * 1.18;
       const drawW = img.naturalWidth * scale;
       const drawH = img.naturalHeight * scale;
       const x = (w - drawW) / 2;
@@ -148,6 +150,19 @@ export default function HeroSection() {
 
       if (glowRef.current) {
         glowRef.current.style.opacity = String(0.4 + Math.min(0.6, progress * 0.8));
+      }
+
+      // Spotlight peaks during the transformation moment (~progress 0.45–0.65)
+      // Bell curve centered at 0.55, sharp ramp on either side
+      if (spotlightRef.current) {
+        const peak = 0.55;
+        const width = 0.35;
+        const dist = Math.abs(progress - peak);
+        const intensity = Math.max(0, 1 - (dist / width) ** 2);
+        spotlightRef.current.style.opacity = String(intensity);
+        // Slight scale pulse at peak
+        const scale = 1 + intensity * 0.15;
+        spotlightRef.current.style.transform = `translate(-50%, -50%) scale(${scale})`;
       }
     };
 
@@ -260,7 +275,7 @@ export default function HeroSection() {
       ref={sectionRef}
       id="top"
       className="relative bg-black font-readex"
-      style={{ height: "550vh" }}
+      style={{ height: "700vh" }}
       aria-label="Looplab hero"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -324,59 +339,90 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — large character canvas + cycling word below */}
+          {/* RIGHT — large character canvas with cycling text overlapping feet */}
           <div className="lg:col-span-7 relative h-full flex flex-col items-center justify-center">
-            {/* Character — big, fills most of the column */}
-            <div className="relative w-full flex-1 min-h-0">
+            <div className="relative w-full h-full">
+              {/* Spotlight effect — peaks during transformation moment */}
+              <div
+                ref={spotlightRef}
+                aria-hidden="true"
+                className="absolute left-1/2 top-1/2 w-[110%] h-[110%] pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at center, rgba(255,236,180,0.35) 0%, rgba(236,72,153,0.25) 25%, rgba(168,85,247,0.18) 45%, transparent 70%)",
+                  filter: "blur(20px)",
+                  opacity: 0,
+                  transform: "translate(-50%, -50%) scale(1)",
+                  willChange: "opacity, transform",
+                  mixBlendMode: "screen",
+                }}
+              />
+
+              {/* Light rays — additive cone from above */}
+              <div
+                aria-hidden="true"
+                className="absolute left-1/2 top-0 -translate-x-1/2 w-[60%] h-full pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(168,85,247,0.05) 30%, transparent 60%)",
+                  clipPath: "polygon(40% 0%, 60% 0%, 90% 100%, 10% 100%)",
+                  mixBlendMode: "screen",
+                  willChange: "opacity",
+                }}
+              />
+
+              {/* Character canvas */}
               <canvas
                 ref={canvasRef}
-                className="absolute inset-0 w-full h-full"
+                className="relative w-full h-full z-10"
                 aria-hidden="true"
               />
+
+              {/* Cycling word — overlapping the lower-leg/feet area */}
+              <div
+                className="absolute inset-x-0 z-20 pointer-events-none opacity-0 animate-fade-up"
+                style={{
+                  bottom: "5%",
+                  animationDelay: "0.6s",
+                }}
+              >
+                <div className="text-center text-white text-[clamp(1.4rem,3vw,2.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.15]"
+                     style={{
+                       textShadow:
+                         "0 4px 30px rgba(0,0,0,0.85), 0 2px 12px rgba(0,0,0,0.7), 0 0 60px rgba(0,0,0,0.5)",
+                     }}>
+                  <div className="text-white/95 font-light text-[0.7em] mb-1">
+                    we create apps that make you
+                  </div>
+                  <span className="relative inline-block min-w-[240px] md:min-w-[320px]">
+                    {CYCLING_WORDS.map((word, i) => (
+                      <span
+                        key={i}
+                        ref={(el) => (wordRefs.current[i] = el)}
+                        className="absolute left-0 right-0 text-brand-gradient font-bold whitespace-nowrap"
+                        style={{
+                          opacity: 0,
+                          transform: "translateY(12px)",
+                          willChange: "opacity, transform",
+                          filter:
+                            "drop-shadow(0 4px 20px rgba(168,85,247,0.4))",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                    <span aria-hidden="true" className="invisible font-bold">
+                      {CYCLING_WORDS[0]}
+                    </span>
+                  </span>
+                </div>
+              </div>
+
               {!loaded && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                   <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
                 </div>
               )}
-            </div>
-
-            {/* Cycling word — clean, below character with backdrop for legibility */}
-            <div
-              className="relative z-10 w-full pt-4 pb-2 opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.6s" }}
-            >
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 -mx-8 rounded-2xl pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, transparent 70%)",
-                }}
-              />
-              <div className="relative text-center text-white text-[clamp(1.4rem,3vw,2.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.15]">
-                <div className="text-white/90 font-light text-[0.7em] mb-1">
-                  we create apps that make you
-                </div>
-                <span className="relative inline-block min-w-[240px] md:min-w-[320px]">
-                  {CYCLING_WORDS.map((word, i) => (
-                    <span
-                      key={i}
-                      ref={(el) => (wordRefs.current[i] = el)}
-                      className="absolute left-0 right-0 text-brand-gradient font-bold whitespace-nowrap"
-                      style={{
-                        opacity: 0,
-                        transform: "translateY(12px)",
-                        willChange: "opacity, transform",
-                      }}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                  <span aria-hidden="true" className="invisible font-bold">
-                    {CYCLING_WORDS[0]}
-                  </span>
-                </span>
-              </div>
             </div>
           </div>
         </div>

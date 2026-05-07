@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Status = "testing" | "dev" | "concept" | "soon";
 
@@ -110,6 +110,34 @@ export default function LabSection() {
 
 function FeaturedProject() {
   const [screenFailed, setScreenFailed] = useState(false);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Reset to default tilt when not hovering
+  const RESTING_TRANSFORM =
+    "rotateY(-18deg) rotateX(8deg) rotateZ(-2deg) translateZ(0)";
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const phone = phoneRef.current;
+    const wrapper = wrapperRef.current;
+    if (!phone || !wrapper) return;
+    const rect = wrapper.getBoundingClientRect();
+    // Normalize cursor position to [-1, 1] relative to wrapper center
+    const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    // Mix interactive tilt with the resting pose
+    const rotY = -18 + nx * 12; // -30 to -6
+    const rotX = 8 - ny * 10; // 18 to -2
+    const rotZ = -2 + nx * 1.5;
+    phone.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(0)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (phoneRef.current) {
+      phoneRef.current.style.transform = RESTING_TRANSFORM;
+    }
+  };
+
   return (
     <div className="relative bg-gradient-to-br from-cream to-cream-elevated border border-cream-border rounded-3xl overflow-hidden">
       {/* Soft brand glow accent */}
@@ -119,14 +147,21 @@ function FeaturedProject() {
       />
 
       <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 p-6 sm:p-10 md:p-14 items-center">
-        {/* Phone mockup — tilted, with frame */}
-        <div className="lg:col-span-2 relative flex justify-center perspective-[1500px]">
+        {/* Phone mockup — tilted, with frame, swivels on hover */}
+        <div
+          ref={wrapperRef}
+          className="lg:col-span-2 relative flex justify-center perspective-[1500px]"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
           <div
-            className="relative w-full max-w-[260px] sm:max-w-[300px] transition-transform duration-700"
+            ref={phoneRef}
+            className="relative w-full max-w-[260px] sm:max-w-[300px]"
             style={{
-              transform:
-                "rotateY(-18deg) rotateX(8deg) rotateZ(-2deg) translateZ(0)",
+              transform: RESTING_TRANSFORM,
               transformStyle: "preserve-3d",
+              transition: "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+              willChange: "transform",
             }}
           >
             {/* Phone frame */}
