@@ -8,7 +8,7 @@ const POSTER_FRAME = 30;
 const CYCLING_WORDS = [
   "a master.",
   "a champion.",
-  "addicted.",
+  "limitless.",
   "unstoppable.",
 ];
 
@@ -34,7 +34,6 @@ export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
-  const spotlightRef = useRef<HTMLDivElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const lastFrameRef = useRef<number>(-1);
   const rafRef = useRef<number>(0);
@@ -110,8 +109,7 @@ export default function HeroSection() {
       const { w, h, dpr } = canvasSizeRef.current;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-      // 1.18x multiplier — character feels more substantial / less thin
-      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight) * 1.18;
+      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
       const drawW = img.naturalWidth * scale;
       const drawH = img.naturalHeight * scale;
       const x = (w - drawW) / 2;
@@ -148,21 +146,19 @@ export default function HeroSection() {
         node.style.transform = `translateY(${translateY}px)`;
       });
 
+      // Subtle ambient color shift behind the character.
+      // Warmer / brighter around the transformation moment (0.45–0.65).
       if (glowRef.current) {
-        glowRef.current.style.opacity = String(0.4 + Math.min(0.6, progress * 0.8));
-      }
-
-      // Spotlight peaks during the transformation moment (~progress 0.45–0.65)
-      // Bell curve centered at 0.55, sharp ramp on either side
-      if (spotlightRef.current) {
-        const peak = 0.55;
-        const width = 0.35;
-        const dist = Math.abs(progress - peak);
-        const intensity = Math.max(0, 1 - (dist / width) ** 2);
-        spotlightRef.current.style.opacity = String(intensity);
-        // Slight scale pulse at peak
-        const scale = 1 + intensity * 0.15;
-        spotlightRef.current.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        const opacity = 0.35 + Math.min(0.45, progress * 0.6);
+        // Bell curve — peaks gently at progress 0.55 (transformation)
+        const dist = Math.abs(progress - 0.55);
+        const warmth = Math.max(0, 1 - (dist / 0.4) ** 2); // 0 → 1 → 0
+        // Mix purple-pink (cool) with a touch of warm gold near the peak
+        const r = Math.round(168 + warmth * 60);  // 168 → 228
+        const g = Math.round(85 + warmth * 80);   // 85 → 165
+        const b = Math.round(247 - warmth * 100); // 247 → 147
+        glowRef.current.style.opacity = String(opacity);
+        glowRef.current.style.background = `radial-gradient(ellipse, rgba(${r},${g},${b},0.28) 0%, rgba(236,72,153,0.16) 40%, transparent 70%)`;
       }
     };
 
@@ -342,35 +338,6 @@ export default function HeroSection() {
           {/* RIGHT — large character canvas with cycling text overlapping feet */}
           <div className="lg:col-span-7 relative h-full flex flex-col items-center justify-center">
             <div className="relative w-full h-full">
-              {/* Spotlight effect — peaks during transformation moment */}
-              <div
-                ref={spotlightRef}
-                aria-hidden="true"
-                className="absolute left-1/2 top-1/2 w-[110%] h-[110%] pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, rgba(255,236,180,0.35) 0%, rgba(236,72,153,0.25) 25%, rgba(168,85,247,0.18) 45%, transparent 70%)",
-                  filter: "blur(20px)",
-                  opacity: 0,
-                  transform: "translate(-50%, -50%) scale(1)",
-                  willChange: "opacity, transform",
-                  mixBlendMode: "screen",
-                }}
-              />
-
-              {/* Light rays — additive cone from above */}
-              <div
-                aria-hidden="true"
-                className="absolute left-1/2 top-0 -translate-x-1/2 w-[60%] h-full pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(168,85,247,0.05) 30%, transparent 60%)",
-                  clipPath: "polygon(40% 0%, 60% 0%, 90% 100%, 10% 100%)",
-                  mixBlendMode: "screen",
-                  willChange: "opacity",
-                }}
-              />
-
               {/* Character canvas */}
               <canvas
                 ref={canvasRef}

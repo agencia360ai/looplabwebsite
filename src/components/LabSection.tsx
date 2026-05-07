@@ -8,6 +8,7 @@ type Project = {
   tagline: string;
   status: Status;
   mascot: string;
+  mascotActive: string;
   alt: string;
 };
 
@@ -29,7 +30,8 @@ const PROJECTS: Project[] = [
     name: "BoxIt.",
     tagline: "every round, sharper.",
     status: "dev",
-    mascot: "/mascots/boxer-jab.png",
+    mascot: "/mascots/boxer-guard.png",
+    mascotActive: "/mascots/boxer-jab.png",
     alt: "BoxIt boxing app",
   },
   {
@@ -37,7 +39,8 @@ const PROJECTS: Project[] = [
     name: "Bakerii.",
     tagline: "the chef's path, gamified.",
     status: "concept",
-    mascot: "/mascots/baker-flame.png",
+    mascot: "/mascots/baker-stand.png",
+    mascotActive: "/mascots/baker-flame.png",
     alt: "Bakerii cooking app",
   },
   {
@@ -45,7 +48,8 @@ const PROJECTS: Project[] = [
     name: "Racer.",
     tagline: "podium chasers only.",
     status: "soon",
-    mascot: "/mascots/racer-trophy.png",
+    mascot: "/mascots/racer-helmet.png",
+    mascotActive: "/mascots/racer-trophy.png",
     alt: "Racer driving app",
   },
   {
@@ -53,7 +57,8 @@ const PROJECTS: Project[] = [
     name: "Mic Drop.",
     tagline: "bars, flow, & followers.",
     status: "soon",
-    mascot: "/mascots/rapper-mic.png",
+    mascot: "/mascots/rapper-point.png",
+    mascotActive: "/mascots/rapper-mic.png",
     alt: "Mic Drop rap app",
   },
 ];
@@ -237,11 +242,20 @@ function ProjectTile({ project }: { project: Project }) {
   return (
     <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer p-5">
       <div className="aspect-square relative flex items-end justify-center mb-4 overflow-hidden">
+        {/* Default pose — fades out on hover */}
         <img
           src={project.mascot}
           alt={project.alt}
           loading="lazy"
-          className="h-full w-auto object-contain object-bottom transition-transform duration-500 group-hover:scale-110 drop-shadow-lg"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto object-contain object-bottom transition-all duration-300 ease-out group-hover:opacity-0 group-hover:scale-95 drop-shadow-lg"
+        />
+        {/* Active pose — fades in on hover */}
+        <img
+          src={project.mascotActive}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto object-contain object-bottom opacity-0 scale-95 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:scale-110 drop-shadow-xl"
         />
       </div>
       <div>
