@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-const FRAME_COUNT = 65;
-const FRAME_PATH = "/frames/boxer/frame-";
-const POSTER_FRAME = 32;
+const FRAME_COUNT = 60;
+const FRAME_PATH = "/frames/sensei/frame-";
+const FRAME_EXT = ".webp";
+const POSTER_FRAME = 30;
 
 const CYCLING_WORDS = [
   "a master.",
@@ -25,6 +26,9 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
+const framePath = (i: number) =>
+  `${FRAME_PATH}${String(i).padStart(3, "0")}${FRAME_EXT}`;
+
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -45,7 +49,6 @@ export default function HeroSection() {
   const isMobile = useMediaQuery("(max-width: 1023px)");
   const useStatic = prefersReducedMotion || isMobile;
 
-  // Mobile: cycle words on a timer
   useEffect(() => {
     if (!useStatic || prefersReducedMotion) return;
     const id = setInterval(() => {
@@ -54,18 +57,15 @@ export default function HeroSection() {
     return () => clearInterval(id);
   }, [useStatic, prefersReducedMotion]);
 
-  // Preload frames (desktop only)
   useEffect(() => {
     if (useStatic) return;
-
     let cancelled = false;
     let loadedCount = 0;
     const images: HTMLImageElement[] = [];
-
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
       img.decoding = "async";
-      img.src = `${FRAME_PATH}${String(i).padStart(3, "0")}.jpg`;
+      img.src = framePath(i);
       const onDone = () => {
         if (cancelled) return;
         loadedCount++;
@@ -76,18 +76,13 @@ export default function HeroSection() {
       images.push(img);
     }
     imagesRef.current = images;
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [useStatic]);
 
-  // Canvas sizing via ResizeObserver
   useEffect(() => {
     if (useStatic) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -96,14 +91,12 @@ export default function HeroSection() {
       canvasSizeRef.current = { w: rect.width, h: rect.height, dpr };
       lastFrameRef.current = -1;
     };
-
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
     return () => ro.disconnect();
   }, [useStatic, loaded]);
 
-  // Scroll-driven animation
   useEffect(() => {
     if (useStatic || !loaded) return;
 
@@ -113,11 +106,9 @@ export default function HeroSection() {
       const ctx = canvas?.getContext("2d");
       const img = imagesRef.current[index];
       if (!canvas || !ctx || !img || !img.complete) return;
-
       const { w, h, dpr } = canvasSizeRef.current;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
-
       const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
       const drawW = img.naturalWidth * scale;
       const drawH = img.naturalHeight * scale;
@@ -128,27 +119,21 @@ export default function HeroSection() {
     };
 
     const updateWords = (progress: number) => {
-      // Each word gets an equal segment with a small crossfade overlap
       const slot = 1 / CYCLING_WORDS.length;
       CYCLING_WORDS.forEach((_, i) => {
         const node = wordRefs.current[i];
         if (!node) return;
-
         const start = i * slot;
         const end = start + slot;
         const fadeWidth = slot * 0.25;
-
         let opacity = 0;
         let translateY = 12;
-
         if (progress >= start - fadeWidth && progress <= end + fadeWidth) {
           if (progress < start) {
-            // Fading in
             const t = (progress - (start - fadeWidth)) / fadeWidth;
             opacity = t;
             translateY = (1 - t) * 12;
           } else if (progress > end) {
-            // Fading out
             const t = 1 - (progress - end) / fadeWidth;
             opacity = t;
             translateY = (1 - t) * -12;
@@ -157,16 +142,12 @@ export default function HeroSection() {
             translateY = 0;
           }
         }
-
         node.style.opacity = String(Math.max(0, Math.min(1, opacity)));
         node.style.transform = `translateY(${translateY}px)`;
       });
 
-      // Glow ramps in with scroll
       if (glowRef.current) {
-        glowRef.current.style.opacity = String(
-          0.4 + Math.min(0.6, progress * 0.8)
-        );
+        glowRef.current.style.opacity = String(0.4 + Math.min(0.6, progress * 0.8));
       }
     };
 
@@ -201,7 +182,7 @@ export default function HeroSection() {
     el?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // ─── Mobile / reduced-motion layout ────────────────────────────────────
+  // ─── Mobile / reduced-motion fallback ──────────────────────────────────
   if (useStatic) {
     return (
       <section
@@ -209,29 +190,44 @@ export default function HeroSection() {
         className="relative min-h-screen w-full overflow-hidden bg-black font-readex flex items-center"
         aria-label="Looplab hero"
       >
-        {/* Background glows */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/20 blur-[140px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/20 blur-[140px]" />
+          <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/25 blur-[140px]" />
+          <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px]" />
         </div>
 
         <div className="relative z-10 w-full px-6 md:px-10 pt-32 pb-16">
           <div className="max-w-5xl mx-auto text-center">
-            <h1 className="hero-title text-white text-[clamp(2.25rem,8vw,5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
-                style={{ animationDelay: "0.1s" }}>
+            <h1
+              className="hero-title text-white text-[clamp(2.75rem,9vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
+              style={{ animationDelay: "0.1s" }}
+            >
               become the{" "}
               <span className="text-brand-gradient">main character</span>
               <br className="hidden sm:inline" /> of your craft.
             </h1>
 
             <div
-              className="mt-6 md:mt-8 text-white/85 text-lg md:text-2xl font-light lowercase opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.3s" }}
+              className="relative mt-8 max-w-md mx-auto opacity-0 animate-fade-up"
+              style={{ animationDelay: "0.5s" }}
             >
-              <span>we create apps that make you </span>
+              <img
+                src={framePath(POSTER_FRAME)}
+                alt="Looplab sensei mascot"
+                className="w-full h-auto"
+                loading="eager"
+              />
+            </div>
+
+            <div
+              className="mt-2 text-white text-[clamp(1.5rem,5vw,2.25rem)] font-medium lowercase opacity-0 animate-fade-up tracking-[-0.02em]"
+              style={{ animationDelay: "0.7s" }}
+            >
+              <span className="text-white/85 font-light">
+                we create apps that make you{" "}
+              </span>
               <span
                 key={mobileWordIndex}
-                className="text-brand-gradient font-medium animate-fade-in inline-block"
+                className="text-brand-gradient font-bold animate-fade-in inline-block"
               >
                 {prefersReducedMotion
                   ? CYCLING_WORDS[0]
@@ -240,8 +236,8 @@ export default function HeroSection() {
             </div>
 
             <div
-              className="mt-8 md:mt-10 opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.5s" }}
+              className="mt-10 opacity-0 animate-fade-up"
+              style={{ animationDelay: "0.9s" }}
             >
               <button
                 type="button"
@@ -251,76 +247,80 @@ export default function HeroSection() {
                 check out more
               </button>
             </div>
-
-            <div
-              className="mt-10 md:mt-14 max-w-sm mx-auto opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.7s" }}
-            >
-              <img
-                src={`${FRAME_PATH}${String(POSTER_FRAME).padStart(3, "0")}.jpg`}
-                alt="Looplab mascot"
-                className="w-full h-auto"
-                loading="eager"
-              />
-            </div>
           </div>
         </div>
       </section>
     );
   }
 
-  // ─── Desktop: scroll-driven hero ───────────────────────────────────────
+  // ─── Desktop: scroll-driven hero with character behind text ────────────
   return (
     <section
       ref={sectionRef}
       id="top"
       className="relative bg-black font-readex"
-      style={{ height: "250vh" }}
+      style={{ height: "260vh" }}
       aria-label="Looplab hero"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        {/* Background glows */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Background ambient glows */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/20 blur-[140px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/20 blur-[140px]" />
+          <div className="absolute -top-1/4 -left-1/4 w-[55%] h-[55%] rounded-full bg-[#a855f7]/22 blur-[160px]" />
+          <div className="absolute -bottom-1/4 -right-1/4 w-[55%] h-[55%] rounded-full bg-[#ec4899]/22 blur-[160px]" />
         </div>
 
-        {/* Concentrated glow behind the character */}
+        {/* Concentrated glow behind character */}
         <div
           ref={glowRef}
           aria-hidden="true"
-          className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[40%] h-[70%] rounded-full blur-[140px] pointer-events-none"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[80%] rounded-full blur-[140px] pointer-events-none"
           style={{
             background:
-              "radial-gradient(circle, rgba(168,85,247,0.25), rgba(236,72,153,0.18), transparent 70%)",
+              "radial-gradient(ellipse, rgba(168,85,247,0.3) 0%, rgba(236,72,153,0.18) 40%, transparent 70%)",
             opacity: 0.4,
             willChange: "opacity",
           }}
         />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-24 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
-          {/* Left column — text + CTA */}
-          <div className="flex flex-col justify-center">
-            <h1
-              className="hero-title text-white text-[clamp(2.5rem,6vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
-              style={{ animationDelay: "0.1s" }}
-            >
-              become the{" "}
-              <span className="text-brand-gradient">main character</span>{" "}
-              of your craft.
-            </h1>
+        {/* Character canvas — behind text, centered */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full z-10"
+          aria-hidden="true"
+        />
 
+        {/* Title — top of viewport */}
+        <div
+          className="absolute top-0 left-0 right-0 z-30 px-6 md:px-10 pt-28 md:pt-32 opacity-0 animate-fade-up"
+          style={{ animationDelay: "0.1s" }}
+        >
+          <h1 className="hero-title text-center text-white text-[clamp(3rem,9vw,8rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase max-w-7xl mx-auto text-balance">
+            become the{" "}
+            <span className="text-brand-gradient">main character</span>
+            {" "}of your craft.
+          </h1>
+        </div>
+
+        {/* Cycling subtitle — overlaid mid-viewport, on top of character */}
+        <div className="absolute inset-0 z-20 flex items-end justify-center pb-[18vh] md:pb-[14vh] pointer-events-none">
+          <div className="w-full max-w-6xl mx-auto px-6 md:px-10 text-center">
             <div
-              className="mt-6 md:mt-8 text-white/85 text-xl md:text-2xl font-light lowercase opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.3s" }}
+              className="text-white text-[clamp(2rem,5.5vw,4.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.1] opacity-0 animate-fade-up"
+              style={{
+                animationDelay: "0.4s",
+                textShadow: "0 4px 30px rgba(0,0,0,0.6)",
+              }}
             >
-              <span>we create apps that make you </span>
-              <span className="relative inline-block min-w-[180px] md:min-w-[260px] align-baseline">
+              <span className="text-white/90 font-light">
+                we create apps that make you
+              </span>
+              <br />
+              <span className="relative inline-block min-w-[300px] md:min-w-[500px] mt-2 align-baseline">
                 {CYCLING_WORDS.map((word, i) => (
                   <span
                     key={i}
                     ref={(el) => (wordRefs.current[i] = el)}
-                    className="absolute left-0 top-0 text-brand-gradient font-medium whitespace-nowrap"
+                    className="absolute left-0 right-0 text-brand-gradient font-bold whitespace-nowrap"
                     style={{
                       opacity: 0,
                       transform: "translateY(12px)",
@@ -330,60 +330,41 @@ export default function HeroSection() {
                     {word}
                   </span>
                 ))}
-                {/* invisible spacer keeps line height stable */}
-                <span aria-hidden="true" className="invisible">
+                <span aria-hidden="true" className="invisible font-bold">
                   {CYCLING_WORDS[0]}
                 </span>
               </span>
             </div>
-
-            <div
-              className="mt-10 md:mt-12 opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.5s" }}
-            >
-              <button
-                type="button"
-                onClick={handleCTA}
-                className="bg-brand-gradient text-white font-medium px-9 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/25 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2"
-              >
-                check out more
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          {/* Right column — animated character */}
-          <div className="relative h-[60vh] lg:h-[80vh] flex items-center justify-center">
-            <canvas
-              ref={canvasRef}
-              className="w-full h-full"
-              aria-hidden="true"
-            />
-            {!loaded && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Bottom blend gradient for seamless transition into next section */}
+        {/* CTA — bottom */}
+        <div
+          className="absolute bottom-12 left-0 right-0 z-30 flex justify-center opacity-0 animate-fade-up"
+          style={{ animationDelay: "0.7s" }}
+        >
+          <button
+            type="button"
+            onClick={handleCTA}
+            className="bg-brand-gradient text-white font-medium px-10 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2 pointer-events-auto"
+          >
+            check out more
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {!loaded && (
+          <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
+            <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
+          </div>
+        )}
+
         <div
           aria-hidden="true"
-          className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent z-20 pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent z-30 pointer-events-none"
         />
       </div>
     </section>

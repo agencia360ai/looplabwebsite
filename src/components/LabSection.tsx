@@ -118,26 +118,55 @@ function FeaturedProject() {
         className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-gradient-to-br from-[#a855f7]/15 via-[#ec4899]/10 to-transparent blur-3xl pointer-events-none"
       />
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-12 p-6 sm:p-10 md:p-14 items-center">
-        {/* Phone screenshot */}
-        <div className="lg:col-span-2 relative flex justify-center">
-          <div className="relative w-full max-w-[280px] sm:max-w-[320px]">
-            {!screenFailed ? (
-              <img
-                src={FEATURED.screen}
-                alt={FEATURED.alt}
-                loading="lazy"
-                onError={() => setScreenFailed(true)}
-                className="w-full h-auto drop-shadow-2xl rounded-3xl"
+      <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 p-6 sm:p-10 md:p-14 items-center">
+        {/* Phone mockup — tilted, with frame */}
+        <div className="lg:col-span-2 relative flex justify-center perspective-[1500px]">
+          <div
+            className="relative w-full max-w-[260px] sm:max-w-[300px] transition-transform duration-700"
+            style={{
+              transform:
+                "rotateY(-18deg) rotateX(8deg) rotateZ(-2deg) translateZ(0)",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {/* Phone frame */}
+            <div
+              className="relative bg-neutral-900 rounded-[2.75rem] p-2.5 shadow-2xl"
+              style={{
+                boxShadow:
+                  "0 30px 60px -15px rgba(168,85,247,0.35), 0 20px 40px -10px rgba(236,72,153,0.25), 0 0 0 1px rgba(255,255,255,0.08) inset",
+              }}
+            >
+              {/* Screen */}
+              <div className="relative bg-black rounded-[2.25rem] overflow-hidden">
+                {/* Notch */}
+                <div
+                  aria-hidden="true"
+                  className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-neutral-900 rounded-full z-10"
+                />
+                {!screenFailed ? (
+                  <img
+                    src={FEATURED.screen}
+                    alt={FEATURED.alt}
+                    loading="lazy"
+                    onError={() => setScreenFailed(true)}
+                    className="w-full h-auto block"
+                  />
+                ) : (
+                  <img
+                    src={FEATURED.mascot}
+                    alt={FEATURED.alt}
+                    loading="lazy"
+                    className="w-full h-auto block"
+                  />
+                )}
+              </div>
+              {/* Side button highlight */}
+              <div
+                aria-hidden="true"
+                className="absolute right-[-2px] top-24 w-1 h-12 bg-neutral-700 rounded-r"
               />
-            ) : (
-              <img
-                src={FEATURED.mascot}
-                alt={FEATURED.alt}
-                loading="lazy"
-                className="w-full h-auto drop-shadow-2xl"
-              />
-            )}
+            </div>
           </div>
         </div>
 

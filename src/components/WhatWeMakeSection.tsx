@@ -30,9 +30,21 @@ export default function WhatWeMakeSection() {
   return (
     <section
       id="what"
-      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream-elevated border-t border-cream-border"
+      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream-elevated border-t border-cream-border overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Atmospheric decoration — low opacity so AI text artifacts blend in */}
+      <div
+        aria-hidden="true"
+        className="absolute -top-20 right-0 w-[30rem] h-[22rem] pointer-events-none opacity-[0.08] hidden md:block"
+        style={{
+          backgroundImage: "url('/graphics/pillars.png')",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right top",
+          mixBlendMode: "luminosity",
+        }}
+      />
+      <div className="max-w-6xl mx-auto relative">
         <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
           what we make
         </p>
