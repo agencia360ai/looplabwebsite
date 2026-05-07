@@ -22,10 +22,10 @@ export default function JoinSection() {
           better feels like playing a game.
         </p>
         <a
-          href="mailto:hello@looplab.gg"
+          href="mailto:joe@fivebits.gs"
           className="inline-block bg-brand-gradient text-white px-10 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/25 active:scale-[0.97] transition-all uppercase tracking-widest font-semibold cursor-pointer"
         >
-          hello@looplab.gg
+          say hey!
         </a>
         <p className="text-white/40 text-xs font-light mt-12 tracking-wider lowercase">
           looplab studio · panama city

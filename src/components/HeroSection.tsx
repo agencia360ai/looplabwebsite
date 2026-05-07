@@ -106,7 +106,18 @@ export default function HeroSection() {
       const ctx = canvas?.getContext("2d");
       const img = imagesRef.current[index];
       if (!canvas || !ctx || !img || !img.complete) return;
-      const { w, h, dpr } = canvasSizeRef.current;
+      let { w, h, dpr } = canvasSizeRef.current;
+      // Self-recover if canvas isn't sized yet (initial paint before ResizeObserver fires)
+      if (w === 0 || h === 0) {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        w = rect.width;
+        h = rect.height;
+        canvasSizeRef.current = { w, h, dpr };
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
       const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
@@ -150,15 +161,15 @@ export default function HeroSection() {
       // Warmer / brighter around the transformation moment (0.45–0.65).
       if (glowRef.current) {
         const opacity = 0.35 + Math.min(0.45, progress * 0.6);
-        // Bell curve — peaks gently at progress 0.55 (transformation)
         const dist = Math.abs(progress - 0.55);
-        const warmth = Math.max(0, 1 - (dist / 0.4) ** 2); // 0 → 1 → 0
-        // Mix purple-pink (cool) with a touch of warm gold near the peak
-        const r = Math.round(168 + warmth * 60);  // 168 → 228
-        const g = Math.round(85 + warmth * 80);   // 85 → 165
-        const b = Math.round(247 - warmth * 100); // 247 → 147
+        const warmth = Math.max(0, 1 - (dist / 0.4) ** 2);
+        const r = Math.round(168 + warmth * 60);
+        const g = Math.round(85 + warmth * 80);
+        const b = Math.round(247 - warmth * 100);
         glowRef.current.style.opacity = String(opacity);
         glowRef.current.style.background = `radial-gradient(ellipse, rgba(${r},${g},${b},0.28) 0%, rgba(236,72,153,0.16) 40%, transparent 70%)`;
+        // Preserve the centering transform
+        glowRef.current.style.transform = "translate(-50%, -50%)";
       }
     };
 
@@ -181,7 +192,12 @@ export default function HeroSection() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    // Initial paint — schedule on next frame to ensure layout is complete,
+    // then again on the frame after to catch any late ResizeObserver updates.
+    requestAnimationFrame(() => {
+      onScroll();
+      requestAnimationFrame(onScroll);
+    });
     return () => {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(rafRef.current);
@@ -281,19 +297,6 @@ export default function HeroSection() {
           <div className="absolute -bottom-1/4 -right-1/4 w-[55%] h-[55%] rounded-full bg-[#ec4899]/22 blur-[160px]" />
         </div>
 
-        {/* Concentrated glow behind character (right side) */}
-        <div
-          ref={glowRef}
-          aria-hidden="true"
-          className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] rounded-full blur-[140px] pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(168,85,247,0.3) 0%, rgba(236,72,153,0.18) 40%, transparent 70%)",
-            opacity: 0.4,
-            willChange: "opacity",
-          }}
-        />
-
         {/* Two-column content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center h-full">
           {/* LEFT — title + CTA */}
@@ -338,6 +341,20 @@ export default function HeroSection() {
           {/* RIGHT — large character canvas with cycling text overlapping feet */}
           <div className="lg:col-span-7 relative h-full flex flex-col items-center justify-center">
             <div className="relative w-full h-full">
+              {/* Centered glow behind character — sized + placed to sit right behind the figure */}
+              <div
+                ref={glowRef}
+                aria-hidden="true"
+                className="absolute left-1/2 top-1/2 w-[70%] h-[75%] rounded-full blur-[140px] pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(ellipse, rgba(168,85,247,0.3) 0%, rgba(236,72,153,0.18) 40%, transparent 70%)",
+                  opacity: 0.4,
+                  transform: "translate(-50%, -50%)",
+                  willChange: "opacity",
+                }}
+              />
+
               {/* Character canvas */}
               <canvas
                 ref={canvasRef}
