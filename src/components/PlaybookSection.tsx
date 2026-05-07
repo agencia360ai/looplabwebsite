@@ -38,18 +38,6 @@ export default function PlaybookSection() {
       id="process"
       className="relative py-24 md:py-32 px-6 md:px-10 bg-cream border-t border-cream-border overflow-hidden"
     >
-      {/* Atmospheric decoration */}
-      <div
-        aria-hidden="true"
-        className="absolute -top-10 -right-20 w-[28rem] h-[22rem] pointer-events-none opacity-[0.07] hidden md:block"
-        style={{
-          backgroundImage: "url('/graphics/playbook.png')",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "right top",
-          mixBlendMode: "luminosity",
-        }}
-      />
       <div className="max-w-6xl mx-auto relative">
         <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
           the playbook

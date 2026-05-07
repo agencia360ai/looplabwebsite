@@ -53,7 +53,7 @@ export default function HeroSection() {
     if (!useStatic || prefersReducedMotion) return;
     const id = setInterval(() => {
       setMobileWordIndex((i) => (i + 1) % CYCLING_WORDS.length);
-    }, 2200);
+    }, 2500);
     return () => clearInterval(id);
   }, [useStatic, prefersReducedMotion]);
 
@@ -253,13 +253,14 @@ export default function HeroSection() {
     );
   }
 
-  // ─── Desktop: scroll-driven hero with character behind text ────────────
+  // ─── Desktop: two-column scroll hero, character on right ───────────────
+  // 400vh height = animation moves slower per scroll-pixel
   return (
     <section
       ref={sectionRef}
       id="top"
       className="relative bg-black font-readex"
-      style={{ height: "260vh" }}
+      style={{ height: "400vh" }}
       aria-label="Looplab hero"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -269,11 +270,11 @@ export default function HeroSection() {
           <div className="absolute -bottom-1/4 -right-1/4 w-[55%] h-[55%] rounded-full bg-[#ec4899]/22 blur-[160px]" />
         </div>
 
-        {/* Concentrated glow behind character */}
+        {/* Concentrated glow behind character (right side) */}
         <div
           ref={glowRef}
           aria-hidden="true"
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[55%] h-[80%] rounded-full blur-[140px] pointer-events-none"
+          className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] rounded-full blur-[140px] pointer-events-none"
           style={{
             background:
               "radial-gradient(ellipse, rgba(168,85,247,0.3) 0%, rgba(236,72,153,0.18) 40%, transparent 70%)",
@@ -282,83 +283,119 @@ export default function HeroSection() {
           }}
         />
 
-        {/* Character canvas — behind text, centered */}
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 w-full h-full z-10"
-          aria-hidden="true"
-        />
-
-        {/* Title — top of viewport */}
-        <div
-          className="absolute top-0 left-0 right-0 z-30 px-6 md:px-10 pt-28 md:pt-32 opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.1s" }}
-        >
-          <h1 className="hero-title text-center text-white text-[clamp(3rem,9vw,8rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase max-w-7xl mx-auto text-balance">
-            become the{" "}
-            <span className="text-brand-gradient">main character</span>
-            {" "}of your craft.
-          </h1>
-        </div>
-
-        {/* Cycling subtitle — overlaid mid-viewport, on top of character */}
-        <div className="absolute inset-0 z-20 flex items-end justify-center pb-[18vh] md:pb-[14vh] pointer-events-none">
-          <div className="w-full max-w-6xl mx-auto px-6 md:px-10 text-center">
-            <div
-              className="text-white text-[clamp(2rem,5.5vw,4.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.1] opacity-0 animate-fade-up"
-              style={{
-                animationDelay: "0.4s",
-                textShadow: "0 4px 30px rgba(0,0,0,0.6)",
-              }}
+        {/* Two-column content */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-24 pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
+          {/* LEFT — title + CTA */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            <h1
+              className="hero-title text-white text-[clamp(2.75rem,7vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase opacity-0 animate-fade-up text-balance"
+              style={{ animationDelay: "0.1s" }}
             >
-              <span className="text-white/90 font-light">
-                we create apps that make you
-              </span>
-              <br />
-              <span className="relative inline-block min-w-[300px] md:min-w-[500px] mt-2 align-baseline">
-                {CYCLING_WORDS.map((word, i) => (
-                  <span
-                    key={i}
-                    ref={(el) => (wordRefs.current[i] = el)}
-                    className="absolute left-0 right-0 text-brand-gradient font-bold whitespace-nowrap"
-                    style={{
-                      opacity: 0,
-                      transform: "translateY(12px)",
-                      willChange: "opacity, transform",
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
-                <span aria-hidden="true" className="invisible font-bold">
-                  {CYCLING_WORDS[0]}
-                </span>
-              </span>
+              become the{" "}
+              <span className="text-brand-gradient">main character</span>{" "}
+              of your craft.
+            </h1>
+
+            <div
+              className="mt-10 md:mt-12 opacity-0 animate-fade-up"
+              style={{ animationDelay: "0.5s" }}
+            >
+              <button
+                type="button"
+                onClick={handleCTA}
+                className="bg-brand-gradient text-white font-medium px-9 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2"
+              >
+                check out more
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </button>
             </div>
+          </div>
+
+          {/* RIGHT — character canvas + cycling word */}
+          <div className="lg:col-span-6 relative h-full flex items-center justify-center">
+            <div className="relative w-full h-[80%]">
+              <canvas
+                ref={canvasRef}
+                className="w-full h-full"
+                aria-hidden="true"
+              />
+
+              {/* Cycling word — positioned over the bottom of the character */}
+              <div className="absolute inset-x-0 bottom-[8%] z-10 pointer-events-none">
+                <div
+                  className="text-center text-white text-[clamp(1.5rem,3.5vw,2.75rem)] font-medium lowercase tracking-[-0.025em] leading-[1.2] opacity-0 animate-fade-up"
+                  style={{
+                    animationDelay: "0.6s",
+                    textShadow: "0 4px 24px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.6)",
+                  }}
+                >
+                  <span className="block text-white/85 font-light text-[0.65em]">
+                    we create apps that make you
+                  </span>
+                  <span className="relative inline-block min-w-[260px] md:min-w-[340px] mt-1">
+                    {CYCLING_WORDS.map((word, i) => (
+                      <span
+                        key={i}
+                        ref={(el) => (wordRefs.current[i] = el)}
+                        className="absolute left-0 right-0 text-brand-gradient font-bold whitespace-nowrap"
+                        style={{
+                          opacity: 0,
+                          transform: "translateY(12px)",
+                          willChange: "opacity, transform",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                    <span aria-hidden="true" className="invisible font-bold">
+                      {CYCLING_WORDS[0]}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {!loaded && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
+              </div>
+            )}
           </div>
         </div>
 
-        {/* CTA — bottom */}
-        <div
-          className="absolute bottom-12 left-0 right-0 z-30 flex justify-center opacity-0 animate-fade-up"
-          style={{ animationDelay: "0.7s" }}
-        >
-          <button
-            type="button"
-            onClick={handleCTA}
-            className="bg-brand-gradient text-white font-medium px-10 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2 pointer-events-auto"
+        {/* Scroll hint */}
+        {loaded && (
+          <div
+            aria-hidden="true"
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1 pointer-events-none"
           >
-            check out more
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
+            <p className="text-white/30 text-[10px] tracking-[0.25em] uppercase">
+              scroll
+            </p>
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="text-white/30 animate-bounce"
+            >
+              <path d="M12 5v14M5 12l7 7 7-7" />
             </svg>
-          </button>
-        </div>
-
-        {!loaded && (
-          <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
-            <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
           </div>
         )}
 
