@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { LooplabMark } from "./Navbar";
 
 export default function Footer() {
@@ -34,6 +35,22 @@ export default function Footer() {
               loading="lazy"
             />
           </a>
+        </div>
+
+        {/* Legal links */}
+        <div className="flex items-center gap-5 text-muted-foreground/50 text-[10px] tracking-[0.2em] uppercase">
+          <Link
+            to="/privacy"
+            className="hover:text-foreground transition-colors"
+          >
+            privacy
+          </Link>
+          <Link
+            to="/terms"
+            className="hover:text-foreground transition-colors"
+          >
+            terms
+          </Link>
         </div>
       </div>
     </footer>
