@@ -34,6 +34,8 @@ export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
+  const mobileMascotRef = useRef<HTMLImageElement>(null);
+  const mobileScrollRafRef = useRef<number>(0);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const lastFrameRef = useRef<number>(-1);
   const rafRef = useRef<number>(0);
@@ -55,6 +57,33 @@ export default function HeroSection() {
       setMobileWordIndex((i) => (i + 1) % CYCLING_WORDS.length);
     }, 2500);
     return () => clearInterval(id);
+  }, [useStatic, prefersReducedMotion]);
+
+  // Mobile: lightweight scroll-linked transform on the static mascot —
+  // gives the "moves on scroll" feel without loading the 60-frame sequence.
+  useEffect(() => {
+    if (!useStatic || prefersReducedMotion) return;
+    const onScroll = () => {
+      cancelAnimationFrame(mobileScrollRafRef.current);
+      mobileScrollRafRef.current = requestAnimationFrame(() => {
+        const node = mobileMascotRef.current;
+        if (!node) return;
+        const y = window.scrollY;
+        const vh = window.innerHeight || 1;
+        const progress = Math.max(0, Math.min(1, y / (vh * 0.9)));
+        const translate = progress * -64;
+        const scale = 1 - progress * 0.08;
+        const rotate = progress * -2;
+        node.style.transform = `translate3d(0, ${translate}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+        node.style.opacity = String(1 - progress * 0.35);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(mobileScrollRafRef.current);
+    };
   }, [useStatic, prefersReducedMotion]);
 
   useEffect(() => {
@@ -238,10 +267,13 @@ export default function HeroSection() {
               style={{ animationDelay: "0.5s" }}
             >
               <img
+                ref={mobileMascotRef}
                 src={framePath(POSTER_FRAME)}
                 alt="Looplab sensei mascot"
                 className="w-full h-auto"
                 loading="eager"
+                fetchPriority="high"
+                style={{ willChange: "transform, opacity" }}
               />
             </div>
 
