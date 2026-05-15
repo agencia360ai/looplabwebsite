@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 
-const VIDEO_SRC = "/sensei-loop.mp4";
-const POSTER_SRC = "/frames/sensei/frame-030.webp";
+// Transformation arc — businessman → sensei. Four crisp webp poses
+// crossfading on an 8-second loop tells the "becoming" story:
+//   1. businessman standing  → 2. businessman action
+//   3. sensei stance         → 4. sensei flying kick
+const POSE_1 = "/frames/sensei/frame-000.webp";
+const POSE_2 = "/frames/sensei/frame-015.webp";
+const POSE_3 = "/frames/sensei/frame-030.webp";
+const POSE_4 = "/frames/sensei/frame-059.webp";
 
 const CYCLING_WORDS = [
   "a master.",
@@ -118,31 +124,52 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Sensei mascot — looping kata video on autoplay, static poster for reduced-motion */}
+        {/* Transformation arc mascot — businessman → sensei. Four crisp webp
+            poses crossfade via CSS keyframes (no MP4 artifacts, no JS).
+            Reduced-motion users see only the final sensei stance. */}
         <div className="lg:col-span-6 flex justify-center lg:justify-end">
-          {prefersReducedMotion ? (
-            <img
-              src={POSTER_SRC}
-              alt="Looplab sensei mascot"
-              className="block h-auto w-auto max-h-[40vh] lg:max-h-[65vh] max-w-[75%]"
-              loading="eager"
-              fetchPriority="high"
-            />
-          ) : (
-            <video
-              src={VIDEO_SRC}
-              poster={POSTER_SRC}
-              autoPlay
-              muted
-              loop
-              playsInline
-              disablePictureInPicture
-              aria-hidden="true"
-              tabIndex={-1}
-              className="block h-auto w-auto max-h-[40vh] lg:max-h-[65vh] max-w-[75%] pointer-events-none"
-              style={{ transform: "translate3d(0,0,0)" }}
-            />
-          )}
+          <div className="relative max-h-[45vh] lg:max-h-[70vh] max-w-[80%] w-auto h-auto aspect-[9/16]">
+            {prefersReducedMotion ? (
+              <img
+                src={POSE_3}
+                alt="Looplab sensei mascot"
+                className="block h-full w-auto mx-auto"
+                loading="eager"
+                fetchPriority="high"
+              />
+            ) : (
+              <>
+                <img
+                  src={POSE_1}
+                  alt="Looplab businessman becoming sensei"
+                  loading="eager"
+                  fetchPriority="high"
+                  className="absolute inset-0 m-auto block h-full w-auto sensei-pose-1"
+                />
+                <img
+                  src={POSE_2}
+                  alt=""
+                  aria-hidden="true"
+                  loading="eager"
+                  className="absolute inset-0 m-auto block h-full w-auto sensei-pose-2"
+                />
+                <img
+                  src={POSE_3}
+                  alt=""
+                  aria-hidden="true"
+                  loading="eager"
+                  className="absolute inset-0 m-auto block h-full w-auto sensei-pose-3"
+                />
+                <img
+                  src={POSE_4}
+                  alt=""
+                  aria-hidden="true"
+                  loading="eager"
+                  className="absolute inset-0 m-auto block h-full w-auto sensei-pose-4"
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </section>
