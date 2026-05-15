@@ -60,7 +60,8 @@ export default function HeroSection() {
   }, [useStatic, prefersReducedMotion]);
 
   // Mobile: lightweight scroll-linked transform on the static mascot —
-  // gives the "moves on scroll" feel without loading the 60-frame sequence.
+  // shrinks + fades as the user scrolls past, without crashing into the
+  // headline above it.
   useEffect(() => {
     if (!useStatic || prefersReducedMotion) return;
     const onScroll = () => {
@@ -70,12 +71,13 @@ export default function HeroSection() {
         if (!node) return;
         const y = window.scrollY;
         const vh = window.innerHeight || 1;
-        const progress = Math.max(0, Math.min(1, y / (vh * 0.9)));
-        const translate = progress * -64;
-        const scale = 1 - progress * 0.08;
-        const rotate = progress * -2;
-        node.style.transform = `translate3d(0, ${translate}px, 0) scale(${scale}) rotate(${rotate}deg)`;
-        node.style.opacity = String(1 - progress * 0.35);
+        const progress = Math.max(0, Math.min(1, y / (vh * 0.7)));
+        // Settle slightly downward (out of headline area), shrink, and fade.
+        // No upward translate — that's what was crashing into the headline.
+        const translate = progress * 18;
+        const scale = 1 - progress * 0.1;
+        node.style.transform = `translate3d(0, ${translate}px, 0) scale(${scale})`;
+        node.style.opacity = String(1 - progress * 0.55);
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -251,10 +253,10 @@ export default function HeroSection() {
           <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px]" />
         </div>
 
-        <div className="relative z-10 w-full px-6 md:px-10 pt-32 pb-16">
+        <div className="relative z-10 w-full px-6 md:px-10 pt-24 sm:pt-28 pb-10 sm:pb-12">
           <div className="max-w-5xl mx-auto text-center">
             <h1
-              className="hero-title text-white text-[clamp(2.75rem,9vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
+              className="hero-title text-white text-[clamp(2.5rem,8vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
               style={{ animationDelay: "0.1s" }}
             >
               become the{" "}
@@ -263,14 +265,14 @@ export default function HeroSection() {
             </h1>
 
             <div
-              className="relative mt-8 max-w-md mx-auto opacity-0 animate-fade-up"
+              className="relative mt-6 mx-auto opacity-0 animate-fade-up flex justify-center"
               style={{ animationDelay: "0.5s" }}
             >
               <img
                 ref={mobileMascotRef}
                 src={framePath(POSTER_FRAME)}
                 alt="Looplab sensei mascot"
-                className="w-full h-auto"
+                className="block h-auto w-auto max-h-[40vh] sm:max-h-[44vh] max-w-[80%]"
                 loading="eager"
                 fetchPriority="high"
                 style={{ willChange: "transform, opacity" }}
