@@ -34,7 +34,12 @@ export default function HeroSection() {
 
   const [ready, setReady] = useState(false);
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const useStatic = prefersReducedMotion;
+  const isMobile = useMediaQuery("(max-width: 1023px)");
+  // Mobile gets a static hero (no scroll-scrubbed video). The <video>
+  // approach is too fragile on iOS Safari — scroll-blocking, seek
+  // pressure, momentum-scroll quirks. Desktop keeps the full
+  // scroll-driven video.
+  const useStatic = prefersReducedMotion || isMobile;
 
   // ─── Scroll-driven video scrubber ───────────────────────────────────────
   useEffect(() => {
