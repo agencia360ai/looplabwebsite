@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-const FRAME_COUNT = 60;
-const FRAME_PATH = "/frames/sensei/frame-";
-const FRAME_EXT = ".webp";
-const POSTER_FRAME = 30;
+const VIDEO_SRC = "/sensei.mp4";
+const POSTER_SRC = "/frames/sensei/frame-030.webp";
 
 const CYCLING_WORDS = [
   "a master.",
@@ -26,100 +24,30 @@ function useMediaQuery(query: string) {
   return matches;
 }
 
-const framePath = (i: number) =>
-  `${FRAME_PATH}${String(i).padStart(3, "0")}${FRAME_EXT}`;
-
 export default function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
-  const lastFrameRef = useRef<number>(-1);
   const rafRef = useRef<number>(0);
-  const canvasSizeRef = useRef<{ w: number; h: number; dpr: number }>({
-    w: 0,
-    h: 0,
-    dpr: 1,
-  });
+  const lastSeekRef = useRef<number>(-1);
 
-  const [loaded, setLoaded] = useState(false);
+  const [ready, setReady] = useState(false);
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  // Only fall back to a static hero for accessibility — mobile gets the
-  // full scroll-driven frame-by-frame animation too.
   const useStatic = prefersReducedMotion;
 
+  // ─── Scroll-driven video scrubber ───────────────────────────────────────
   useEffect(() => {
     if (useStatic) return;
-    let cancelled = false;
-    let loadedCount = 0;
-    const images: HTMLImageElement[] = [];
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = framePath(i);
-      const onDone = () => {
-        if (cancelled) return;
-        loadedCount++;
-        if (loadedCount === FRAME_COUNT) setLoaded(true);
-      };
-      img.onload = onDone;
-      img.onerror = onDone;
-      images.push(img);
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onMeta = () => setReady(true);
+    if (video.readyState >= 1) {
+      setReady(true);
+    } else {
+      video.addEventListener("loadedmetadata", onMeta, { once: true });
     }
-    imagesRef.current = images;
-    return () => { cancelled = true; };
-  }, [useStatic]);
-
-  useEffect(() => {
-    if (useStatic) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
-      canvasSizeRef.current = { w: rect.width, h: rect.height, dpr };
-      lastFrameRef.current = -1;
-    };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [useStatic, loaded]);
-
-  useEffect(() => {
-    if (useStatic || !loaded) return;
-
-    const drawFrame = (index: number) => {
-      if (index === lastFrameRef.current) return;
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
-      const img = imagesRef.current[index];
-      if (!canvas || !ctx || !img || !img.complete) return;
-      let { w, h, dpr } = canvasSizeRef.current;
-      // Self-recover if canvas isn't sized yet (initial paint before ResizeObserver fires)
-      if (w === 0 || h === 0) {
-        const rect = canvas.getBoundingClientRect();
-        if (rect.width === 0 || rect.height === 0) return;
-        dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.floor(rect.width * dpr);
-        canvas.height = Math.floor(rect.height * dpr);
-        w = rect.width;
-        h = rect.height;
-        canvasSizeRef.current = { w, h, dpr };
-      }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-      const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
-      const drawW = img.naturalWidth * scale;
-      const drawH = img.naturalHeight * scale;
-      const x = (w - drawW) / 2;
-      const y = (h - drawH) / 2;
-      ctx.drawImage(img, x, y, drawW, drawH);
-      lastFrameRef.current = index;
-    };
 
     const updateWords = (progress: number) => {
       const slot = 1 / CYCLING_WORDS.length;
@@ -149,18 +77,15 @@ export default function HeroSection() {
         node.style.transform = `translateY(${translateY}px)`;
       });
 
-      // Subtle ambient color shift behind the character.
-      // Warmer / brighter around the transformation moment (0.45–0.65).
       if (glowRef.current) {
-        const opacity = 0.35 + Math.min(0.45, progress * 0.6);
+        const baseOpacity = 0.35 + Math.min(0.45, progress * 0.6);
         const dist = Math.abs(progress - 0.55);
         const warmth = Math.max(0, 1 - (dist / 0.4) ** 2);
         const r = Math.round(168 + warmth * 60);
         const g = Math.round(85 + warmth * 80);
         const b = Math.round(247 - warmth * 100);
-        glowRef.current.style.opacity = String(opacity);
+        glowRef.current.style.opacity = String(baseOpacity);
         glowRef.current.style.background = `radial-gradient(ellipse, rgba(${r},${g},${b},0.28) 0%, rgba(236,72,153,0.16) 40%, transparent 70%)`;
-        // Preserve the centering transform
         glowRef.current.style.transform = "translate(-50%, -50%)";
       }
     };
@@ -169,23 +94,31 @@ export default function HeroSection() {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(() => {
         const section = sectionRef.current;
-        if (!section) return;
+        const v = videoRef.current;
+        if (!section || !v) return;
         const rect = section.getBoundingClientRect();
         const scrollable = section.offsetHeight - window.innerHeight;
         if (scrollable <= 0) return;
         const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
-        const frameIndex = Math.min(
-          FRAME_COUNT - 1,
-          Math.round(progress * (FRAME_COUNT - 1))
-        );
-        drawFrame(frameIndex);
+
+        const duration = v.duration;
+        if (Number.isFinite(duration) && duration > 0) {
+          const target = progress * duration;
+          if (Math.abs(target - lastSeekRef.current) > 0.01) {
+            try {
+              v.currentTime = target;
+              lastSeekRef.current = target;
+            } catch {
+              // Some browsers throw if metadata isn't loaded yet — ignore.
+            }
+          }
+        }
+
         updateWords(progress);
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Initial paint — schedule on next frame to ensure layout is complete,
-    // then again on the frame after to catch any late ResizeObserver updates.
     requestAnimationFrame(() => {
       onScroll();
       requestAnimationFrame(onScroll);
@@ -193,8 +126,9 @@ export default function HeroSection() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(rafRef.current);
+      video.removeEventListener("loadedmetadata", onMeta);
     };
-  }, [useStatic, loaded]);
+  }, [useStatic]);
 
   const handleCTA = () => {
     const el = document.querySelector("#lab");
@@ -222,7 +156,7 @@ export default function HeroSection() {
             </h1>
             <div className="relative mt-6 flex justify-center">
               <img
-                src={framePath(POSTER_FRAME)}
+                src={POSTER_SRC}
                 alt="Looplab sensei mascot"
                 className="block h-auto w-auto max-h-[40vh] max-w-[80%]"
                 loading="eager"
@@ -252,9 +186,7 @@ export default function HeroSection() {
     );
   }
 
-  // ─── Scroll-driven canvas hero (mobile + desktop) ──────────────────────
-  // Mobile: shorter scroll distance (350vh) + stacked layout.
-  // Desktop: 700vh, two-column.
+  // ─── Scroll-driven video hero ───────────────────────────────────────────
   return (
     <section
       ref={sectionRef}
@@ -263,16 +195,12 @@ export default function HeroSection() {
       aria-label="Looplab hero"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Background ambient glows */}
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-1/4 -left-1/4 w-[55%] h-[55%] rounded-full bg-[#a855f7]/22 blur-[160px]" />
           <div className="absolute -bottom-1/4 -right-1/4 w-[55%] h-[55%] rounded-full bg-[#ec4899]/22 blur-[160px]" />
         </div>
 
-        {/* Responsive layout: mobile stacks (text on top, character below),
-            desktop is two-column (text left, character right). */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-8 lg:pb-12 grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-12 lg:grid-rows-1 gap-3 lg:gap-10 items-stretch lg:items-center h-full">
-          {/* Title + CTA */}
           <div className="lg:col-span-5 flex flex-col justify-center text-center lg:text-left">
             <h1
               className="hero-title text-white text-[clamp(2.5rem,7vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase opacity-0 animate-fade-up text-balance"
@@ -311,7 +239,6 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Character canvas + cycling text overlapping feet */}
           <div className="lg:col-span-7 relative h-full min-h-[55vh] flex flex-col items-center justify-center overflow-hidden">
             <div className="relative w-full h-full">
               <div
@@ -327,25 +254,29 @@ export default function HeroSection() {
                 }}
               />
 
-              <canvas
-                ref={canvasRef}
-                className="relative w-full h-full z-10"
+              <video
+                ref={videoRef}
+                src={VIDEO_SRC}
+                poster={POSTER_SRC}
+                muted
+                playsInline
+                preload="auto"
                 aria-hidden="true"
+                className="relative w-full h-full object-contain z-10"
+                style={{ willChange: "transform" }}
               />
 
-              {/* Cycling word — overlapping the lower-leg/feet area */}
               <div
                 className="absolute inset-x-0 z-20 pointer-events-none opacity-0 animate-fade-up"
-                style={{
-                  bottom: "5%",
-                  animationDelay: "0.6s",
-                }}
+                style={{ bottom: "5%", animationDelay: "0.6s" }}
               >
-                <div className="text-center text-white text-[clamp(1.4rem,3vw,2.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.15]"
-                     style={{
-                       textShadow:
-                         "0 4px 30px rgba(0,0,0,0.85), 0 2px 12px rgba(0,0,0,0.7), 0 0 60px rgba(0,0,0,0.5)",
-                     }}>
+                <div
+                  className="text-center text-white text-[clamp(1.4rem,3vw,2.5rem)] font-medium lowercase tracking-[-0.025em] leading-[1.15]"
+                  style={{
+                    textShadow:
+                      "0 4px 30px rgba(0,0,0,0.85), 0 2px 12px rgba(0,0,0,0.7), 0 0 60px rgba(0,0,0,0.5)",
+                  }}
+                >
                   <div className="text-white/95 font-light text-[0.7em] mb-1">
                     we create apps that make you
                   </div>
@@ -373,7 +304,7 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {!loaded && (
+              {!ready && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
                   <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
                 </div>
@@ -382,8 +313,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        {loaded && (
+        {ready && (
           <div
             aria-hidden="true"
             className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1 pointer-events-none"
