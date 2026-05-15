@@ -72,7 +72,7 @@ export default function HeroSection() {
       </div>
 
       {/* Layout: stacked on mobile, two-column on desktop */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-24 lg:pt-20 pb-12 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-32 sm:pt-36 lg:pt-20 pb-12 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Title + cycling text + CTA */}
         <div className="lg:col-span-6 text-center lg:text-left">
           <h1
@@ -140,6 +140,7 @@ export default function HeroSection() {
               className="block h-[45vh] lg:h-[70vh] w-auto"
               loading="eager"
               fetchPriority="high"
+              style={{ boxShadow: "0 0 120px 40px #000" }}
             />
           ) : (
             <video
@@ -155,7 +156,13 @@ export default function HeroSection() {
               disablePictureInPicture
               disableRemotePlayback
               className="block h-[45vh] lg:h-[70vh] w-auto pointer-events-none"
-              style={{ touchAction: "pan-y" }}
+              style={{
+                touchAction: "pan-y",
+                /* Bleed the pure-black bg past the video bounds so the
+                   rectangle outline doesn't show against the section's
+                   flare-tinted bg (most visible on mobile). */
+                boxShadow: "0 0 120px 40px #000",
+              }}
             />
           )}
         </div>
