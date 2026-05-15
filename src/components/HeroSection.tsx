@@ -42,11 +42,16 @@ export default function HeroSection() {
     const video = videoRef.current;
     if (!video) return;
 
-    const onMeta = () => setReady(true);
-    if (video.readyState >= 1) {
-      setReady(true);
-    } else {
-      video.addEventListener("loadedmetadata", onMeta, { once: true });
+    // The <video> poster already paints immediately, so we don't gate the
+    // UI on metadata. Mark ready right away and force a load() call which
+    // nudges iOS Safari to actually start downloading instead of waiting
+    // for user interaction.
+    setReady(true);
+    try {
+      video.load();
+    } catch {
+      // ignore — load() can throw on some browsers if the element is
+      // already in a loading state
     }
 
     const updateWords = (progress: number) => {
@@ -126,7 +131,6 @@ export default function HeroSection() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(rafRef.current);
-      video.removeEventListener("loadedmetadata", onMeta);
     };
   }, [useStatic]);
 
@@ -303,12 +307,6 @@ export default function HeroSection() {
                   </span>
                 </div>
               </div>
-
-              {!ready && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
-                  <div className="w-8 h-8 border-2 border-white/15 border-t-white/70 rounded-full animate-spin" />
-                </div>
-              )}
             </div>
           </div>
         </div>
