@@ -76,8 +76,7 @@ export default function HeroSection() {
         {/* Title + cycling text + CTA */}
         <div className="lg:col-span-6 text-center lg:text-left">
           <h1
-            className="hero-title text-white text-[clamp(2.5rem,7vw,5.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase opacity-0 animate-fade-up text-balance"
-            style={{ animationDelay: "0.1s" }}
+            className="hero-title text-white text-[clamp(2.5rem,7vw,5.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase text-balance"
           >
             become the{" "}
             <span className="text-brand-gradient">main character</span>{" "}
@@ -85,8 +84,7 @@ export default function HeroSection() {
           </h1>
 
           <div
-            className="mt-6 lg:mt-8 text-white text-[clamp(1.125rem,2vw,1.75rem)] font-medium lowercase tracking-[-0.015em] opacity-0 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
+            className="mt-6 lg:mt-8 text-white text-[clamp(1.125rem,2vw,1.75rem)] font-medium lowercase tracking-[-0.015em]"
           >
             {/* Fixed 2-line layout: prefix on line 1, cycling word on line 2.
                 Block elements force the linebreak regardless of word length so
@@ -102,10 +100,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div
-            className="mt-8 lg:mt-10 opacity-0 animate-fade-up"
-            style={{ animationDelay: "0.6s" }}
-          >
+          <div className="mt-8 lg:mt-10">
             <button
               type="button"
               onClick={handleCTA}
