@@ -109,10 +109,14 @@ export default function HeroSection() {
         const duration = v.duration;
         if (Number.isFinite(duration) && duration > 0) {
           const target = progress * duration;
-          if (Math.abs(target - lastSeekRef.current) > 0.01) {
+          // Round to ~30fps step (1/30s ≈ 0.033s). Reduces iOS Safari
+          // seek pressure significantly while still feeling smooth.
+          const step = 1 / 30;
+          const snapped = Math.round(target / step) * step;
+          if (Math.abs(snapped - lastSeekRef.current) >= step) {
             try {
-              v.currentTime = target;
-              lastSeekRef.current = target;
+              v.currentTime = snapped;
+              lastSeekRef.current = snapped;
             } catch {
               // Some browsers throw if metadata isn't loaded yet — ignore.
             }
@@ -195,7 +199,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="top"
-      className="relative bg-black font-readex h-[350vh] lg:h-[700vh]"
+      className="relative bg-black font-readex h-[200vh] lg:h-[700vh]"
       aria-label="Looplab hero"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -265,9 +269,16 @@ export default function HeroSection() {
                 muted
                 playsInline
                 preload="auto"
+                disablePictureInPicture
+                disableRemotePlayback
                 aria-hidden="true"
-                className="relative w-full h-full object-contain z-10"
-                style={{ willChange: "transform" }}
+                tabIndex={-1}
+                className="relative w-full h-full object-contain z-10 pointer-events-none"
+                style={{
+                  willChange: "transform",
+                  transform: "translate3d(0,0,0)",
+                  touchAction: "pan-y",
+                }}
               />
 
               <div
