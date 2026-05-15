@@ -34,8 +34,6 @@ export default function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const glowRef = useRef<HTMLDivElement>(null);
-  const mobileMascotRef = useRef<HTMLImageElement>(null);
-  const mobileScrollRafRef = useRef<number>(0);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const lastFrameRef = useRef<number>(-1);
   const rafRef = useRef<number>(0);
@@ -46,47 +44,10 @@ export default function HeroSection() {
   });
 
   const [loaded, setLoaded] = useState(false);
-  const [mobileWordIndex, setMobileWordIndex] = useState(0);
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const isMobile = useMediaQuery("(max-width: 1023px)");
-  const useStatic = prefersReducedMotion || isMobile;
-
-  useEffect(() => {
-    if (!useStatic || prefersReducedMotion) return;
-    const id = setInterval(() => {
-      setMobileWordIndex((i) => (i + 1) % CYCLING_WORDS.length);
-    }, 2500);
-    return () => clearInterval(id);
-  }, [useStatic, prefersReducedMotion]);
-
-  // Mobile: lightweight scroll-linked transform on the static mascot —
-  // shrinks + fades as the user scrolls past, without crashing into the
-  // headline above it.
-  useEffect(() => {
-    if (!useStatic || prefersReducedMotion) return;
-    const onScroll = () => {
-      cancelAnimationFrame(mobileScrollRafRef.current);
-      mobileScrollRafRef.current = requestAnimationFrame(() => {
-        const node = mobileMascotRef.current;
-        if (!node) return;
-        const y = window.scrollY;
-        const vh = window.innerHeight || 1;
-        const progress = Math.max(0, Math.min(1, y / (vh * 0.7)));
-        // Settle slightly downward (out of headline area), shrink, and fade.
-        // No upward translate — that's what was crashing into the headline.
-        const translate = progress * 18;
-        const scale = 1 - progress * 0.1;
-        node.style.transform = `translate3d(0, ${translate}px, 0) scale(${scale})`;
-        node.style.opacity = String(1 - progress * 0.55);
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(mobileScrollRafRef.current);
-    };
-  }, [useStatic, prefersReducedMotion]);
+  // Only fall back to a static hero for accessibility — mobile gets the
+  // full scroll-driven frame-by-frame animation too.
+  const useStatic = prefersReducedMotion;
 
   useEffect(() => {
     if (useStatic) return;
@@ -240,7 +201,7 @@ export default function HeroSection() {
     el?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // ─── Mobile / reduced-motion fallback ──────────────────────────────────
+  // ─── Reduced-motion fallback (accessibility) ───────────────────────────
   if (useStatic) {
     return (
       <section
@@ -252,58 +213,35 @@ export default function HeroSection() {
           <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/25 blur-[140px]" />
           <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px]" />
         </div>
-
-        <div className="relative z-10 w-full px-6 md:px-10 pt-24 sm:pt-28 pb-10 sm:pb-12">
+        <div className="relative z-10 w-full px-6 md:px-10 pt-24 pb-10">
           <div className="max-w-5xl mx-auto text-center">
-            <h1
-              className="hero-title text-white text-[clamp(2.5rem,8vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase opacity-0 animate-fade-up text-balance"
-              style={{ animationDelay: "0.1s" }}
-            >
+            <h1 className="hero-title text-white text-[clamp(2.5rem,8vw,5.5rem)] font-medium leading-[0.95] tracking-[-0.04em] lowercase text-balance">
               become the{" "}
               <span className="text-brand-gradient">main character</span>
               <br className="hidden sm:inline" /> of your craft.
             </h1>
-
-            <div
-              className="relative mt-6 mx-auto opacity-0 animate-fade-up flex justify-center"
-              style={{ animationDelay: "0.5s" }}
-            >
+            <div className="relative mt-6 flex justify-center">
               <img
-                ref={mobileMascotRef}
                 src={framePath(POSTER_FRAME)}
                 alt="Looplab sensei mascot"
-                className="block h-auto w-auto max-h-[40vh] sm:max-h-[44vh] max-w-[80%]"
+                className="block h-auto w-auto max-h-[40vh] max-w-[80%]"
                 loading="eager"
                 fetchPriority="high"
-                style={{ willChange: "transform, opacity" }}
               />
             </div>
-
-            <div
-              className="mt-2 text-white text-[clamp(1.5rem,5vw,2.25rem)] font-medium lowercase opacity-0 animate-fade-up tracking-[-0.02em]"
-              style={{ animationDelay: "0.7s" }}
-            >
+            <div className="mt-6 text-white text-[clamp(1.25rem,4vw,2rem)] font-medium lowercase tracking-[-0.02em]">
               <span className="text-white/85 font-light">
                 we create apps that make you{" "}
               </span>
-              <span
-                key={mobileWordIndex}
-                className="text-brand-gradient font-bold animate-fade-in inline-block"
-              >
-                {prefersReducedMotion
-                  ? CYCLING_WORDS[0]
-                  : CYCLING_WORDS[mobileWordIndex]}
+              <span className="text-brand-gradient font-bold">
+                {CYCLING_WORDS[0]}
               </span>
             </div>
-
-            <div
-              className="mt-10 opacity-0 animate-fade-up"
-              style={{ animationDelay: "0.9s" }}
-            >
+            <div className="mt-8">
               <button
                 type="button"
                 onClick={handleCTA}
-                className="bg-brand-gradient text-white font-medium px-8 py-3.5 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/20 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer"
+                className="bg-brand-gradient text-white font-medium px-8 py-3.5 text-sm rounded-full hover:brightness-110 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer"
               >
                 check out more
               </button>
@@ -314,14 +252,14 @@ export default function HeroSection() {
     );
   }
 
-  // ─── Desktop: two-column scroll hero, character on right ───────────────
-  // 400vh height = animation moves slower per scroll-pixel
+  // ─── Scroll-driven canvas hero (mobile + desktop) ──────────────────────
+  // Mobile: shorter scroll distance (350vh) + stacked layout.
+  // Desktop: 700vh, two-column.
   return (
     <section
       ref={sectionRef}
       id="top"
-      className="relative bg-black font-readex"
-      style={{ height: "700vh" }}
+      className="relative bg-black font-readex h-[350vh] lg:h-[700vh]"
       aria-label="Looplab hero"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -331,12 +269,13 @@ export default function HeroSection() {
           <div className="absolute -bottom-1/4 -right-1/4 w-[55%] h-[55%] rounded-full bg-[#ec4899]/22 blur-[160px]" />
         </div>
 
-        {/* Two-column content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center h-full">
-          {/* LEFT — title + CTA */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
+        {/* Responsive layout: mobile stacks (text on top, character below),
+            desktop is two-column (text left, character right). */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-20 pb-8 lg:pb-12 grid grid-cols-1 grid-rows-[auto_1fr] lg:grid-cols-12 lg:grid-rows-1 gap-3 lg:gap-10 items-stretch lg:items-center h-full">
+          {/* Title + CTA */}
+          <div className="lg:col-span-5 flex flex-col justify-center text-center lg:text-left">
             <h1
-              className="hero-title text-white text-[clamp(2.75rem,7vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase opacity-0 animate-fade-up text-balance"
+              className="hero-title text-white text-[clamp(2.5rem,7vw,6.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase opacity-0 animate-fade-up text-balance"
               style={{ animationDelay: "0.1s" }}
             >
               become the{" "}
@@ -345,13 +284,13 @@ export default function HeroSection() {
             </h1>
 
             <div
-              className="mt-10 md:mt-12 opacity-0 animate-fade-up"
+              className="mt-6 lg:mt-12 opacity-0 animate-fade-up"
               style={{ animationDelay: "0.5s" }}
             >
               <button
                 type="button"
                 onClick={handleCTA}
-                className="bg-brand-gradient text-white font-medium px-9 py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2"
+                className="bg-brand-gradient text-white font-medium px-7 py-3 lg:px-9 lg:py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2"
               >
                 check out more
                 <svg
@@ -372,10 +311,9 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* RIGHT — large character canvas with cycling text overlapping feet */}
-          <div className="lg:col-span-7 relative h-full flex flex-col items-center justify-center">
+          {/* Character canvas + cycling text overlapping feet */}
+          <div className="lg:col-span-7 relative h-full min-h-[55vh] flex flex-col items-center justify-center overflow-hidden">
             <div className="relative w-full h-full">
-              {/* Centered glow behind character — sized + placed to sit right behind the figure */}
               <div
                 ref={glowRef}
                 aria-hidden="true"
@@ -389,7 +327,6 @@ export default function HeroSection() {
                 }}
               />
 
-              {/* Character canvas */}
               <canvas
                 ref={canvasRef}
                 className="relative w-full h-full z-10"
