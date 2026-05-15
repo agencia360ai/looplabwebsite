@@ -40,19 +40,25 @@
         color: #fff;
       }
       .ll-init {
-        min-height: 100vh;
-        min-height: 100svh;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 24px;
         /* Mirror the React hero's flare layout (all flares on the LEFT) so
-           the initial-paint → React-mount transition has no visible bg shift. */
+           the splash → React-reveal transition has no visible bg shift. */
         background:
           radial-gradient(55% 55% at 0% 0%, rgba(168, 85, 247, 0.4), transparent 70%),
           radial-gradient(70% 75% at 0% 100%, rgba(236, 72, 153, 0.45), transparent 70%),
           radial-gradient(40% 40% at -10% 50%, rgba(251, 146, 60, 0.25), transparent 70%),
           #000;
+        transition: opacity 0.4s ease-out;
+        pointer-events: none;
+      }
+      .ll-init--hidden {
+        opacity: 0;
       }
       .ll-init__h {
         max-width: 64rem;
@@ -70,18 +76,16 @@
         background-clip: text;
         color: transparent;
       }
-      #root:not(:has(.ll-init)) {
-        background: transparent;
-      }
     </style>
   </head>
   <body class="font-sora antialiased">
-    <div id="root">
-      <div class="ll-init" aria-hidden="true">
-        <h1 class="ll-init__h">
-          become the <span class="ll-init__g">main character</span> of your craft.
-        </h1>
-      </div>
+    <div id="root"></div>
+    <!-- Splash overlay — covers React while it mounts + assets load.
+         main.tsx fades it out on window.load (or after 1500ms max). -->
+    <div class="ll-init" id="ll-init" aria-hidden="true">
+      <h1 class="ll-init__h">
+        become the <span class="ll-init__g">main character</span> of your craft.
+      </h1>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

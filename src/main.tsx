@@ -36,6 +36,23 @@ requestAnimationFrame(() => {
   });
 });
 
+// Hide the ll-init splash overlay once the page is fully loaded (or after
+// 1500ms max as a failsafe). This hides the "ugly middle" — the brief
+// window between React mount and assets settling where fonts swap, the
+// video poster paints, and lazy images push layout around.
+const hideSplash = () => {
+  const splash = document.getElementById("ll-init");
+  if (!splash || splash.classList.contains("ll-init--hidden")) return;
+  splash.classList.add("ll-init--hidden");
+  setTimeout(() => splash.remove(), 500);
+};
+if (document.readyState === "complete") {
+  setTimeout(hideSplash, 150);
+} else {
+  window.addEventListener("load", () => setTimeout(hideSplash, 150));
+}
+setTimeout(hideSplash, 1500); // failsafe — never trap users behind splash
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
