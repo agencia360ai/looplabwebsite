@@ -88,15 +88,18 @@ export default function HeroSection() {
             className="mt-6 lg:mt-8 text-white text-[clamp(1.125rem,2vw,1.75rem)] font-medium lowercase tracking-[-0.015em] opacity-0 animate-fade-up"
             style={{ animationDelay: "0.4s" }}
           >
-            <span className="text-white/85 font-light">
-              we create apps that make you{" "}
-            </span>
-            <span
+            {/* Fixed 2-line layout: prefix on line 1, cycling word on line 2.
+                Block elements force the linebreak regardless of word length so
+                the layout never shifts as the word cycles. */}
+            <div className="text-white/85 font-light">
+              we create apps that make you
+            </div>
+            <div
               key={word}
-              className="text-brand-gradient font-bold animate-fade-in inline-block"
+              className="text-brand-gradient font-bold animate-fade-in"
             >
               {word}
-            </span>
+            </div>
           </div>
 
           <div
