@@ -117,47 +117,6 @@
     will-change: opacity;
   }
 
-  /* Transformation arc — 4 webp poses crossfading through an 8-second
-     loop tells the suit → sensei "becoming" story. Each pose is a
-     crisp original webp (no MP4 compression). Pure CSS, no JS.
-     Sequence: businessman → businessman-action → sensei stance →
-     sensei flying kick → loop back. */
-  @keyframes sensei-pose-1 {
-    0%, 12% { opacity: 1; }
-    18%, 95% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  @keyframes sensei-pose-2 {
-    0%, 18% { opacity: 0; }
-    24%, 32% { opacity: 1; }
-    38%, 100% { opacity: 0; }
-  }
-  @keyframes sensei-pose-3 {
-    0%, 38% { opacity: 0; }
-    44%, 55% { opacity: 1; }
-    61%, 100% { opacity: 0; }
-  }
-  @keyframes sensei-pose-4 {
-    0%, 61% { opacity: 0; }
-    67%, 88% { opacity: 1; }
-    95%, 100% { opacity: 0; }
-  }
-  .sensei-pose-1 {
-    animation: sensei-pose-1 8s ease-in-out infinite;
-    will-change: opacity;
-  }
-  .sensei-pose-2 {
-    animation: sensei-pose-2 8s ease-in-out infinite;
-    will-change: opacity;
-  }
-  .sensei-pose-3 {
-    animation: sensei-pose-3 8s ease-in-out infinite;
-    will-change: opacity;
-  }
-  .sensei-pose-4 {
-    animation: sensei-pose-4 8s ease-in-out infinite;
-    will-change: opacity;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

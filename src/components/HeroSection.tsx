@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 
-// Transformation arc — businessman → sensei. Four crisp webp poses
-// crossfading on an 8-second loop tells the "becoming" story:
-//   1. businessman standing  → 2. businessman action
-//   3. sensei stance         → 4. sensei flying kick
-const POSE_1 = "/frames/sensei/frame-000.webp";
-const POSE_2 = "/frames/sensei/frame-015.webp";
-const POSE_3 = "/frames/sensei/frame-030.webp";
-const POSE_4 = "/frames/sensei/frame-059.webp";
+// Hero mascot video — businessman → sensei transformation arc, 8s loop.
+// 720x1080 h.264, ~600 KB, pure-black background (matches hero bg-black
+// so there's no visible edge / seam between the video and the section).
+const SENSEI_VIDEO = "/sensei-hero.mp4";
+// Poster for instant first paint (and the reduced-motion fallback).
+const SENSEI_POSTER = "/frames/sensei/frame-000.webp";
 
 const CYCLING_WORDS = [
   "a master.",
@@ -124,55 +122,37 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Transformation arc mascot — businessman → sensei. Four crisp webp
-            poses crossfade via CSS keyframes (no MP4 artifacts, no JS).
-            POSE_1 is the in-flow anchor that sizes the box (intrinsic 9:16
-            ratio + h-[Xvh] cap); the other three overlay on top via
-            absolute positioning. Reduced-motion users see the final sensei
-            stance only. */}
+        {/* Hero mascot — businessman → sensei transformation video, 8s loop.
+            Pure-black background blends seamlessly with the hero's bg-black.
+            iOS Safari hardening: pointer-events-none + tabIndex=-1 +
+            disablePictureInPicture so the video never captures touch and
+            hijacks scroll. Reduced-motion users see the poster (still). */}
         <div className="lg:col-span-6 flex justify-center lg:justify-end">
-          <div className="relative">
-            {prefersReducedMotion ? (
-              <img
-                src={POSE_3}
-                alt="Looplab sensei mascot"
-                className="block h-[45vh] lg:h-[70vh] w-auto"
-                loading="eager"
-                fetchPriority="high"
-              />
-            ) : (
-              <>
-                <img
-                  src={POSE_1}
-                  alt="Looplab businessman becoming sensei"
-                  loading="eager"
-                  fetchPriority="high"
-                  className="block h-[45vh] lg:h-[70vh] w-auto sensei-pose-1"
-                />
-                <img
-                  src={POSE_2}
-                  alt=""
-                  aria-hidden="true"
-                  loading="eager"
-                  className="absolute inset-0 block h-full w-full object-contain sensei-pose-2"
-                />
-                <img
-                  src={POSE_3}
-                  alt=""
-                  aria-hidden="true"
-                  loading="eager"
-                  className="absolute inset-0 block h-full w-full object-contain sensei-pose-3"
-                />
-                <img
-                  src={POSE_4}
-                  alt=""
-                  aria-hidden="true"
-                  loading="eager"
-                  className="absolute inset-0 block h-full w-full object-contain sensei-pose-4"
-                />
-              </>
-            )}
-          </div>
+          {prefersReducedMotion ? (
+            <img
+              src={SENSEI_POSTER}
+              alt="Looplab sensei mascot"
+              className="block h-[45vh] lg:h-[70vh] w-auto"
+              loading="eager"
+              fetchPriority="high"
+            />
+          ) : (
+            <video
+              src={SENSEI_VIDEO}
+              poster={SENSEI_POSTER}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              tabIndex={-1}
+              aria-hidden="true"
+              disablePictureInPicture
+              disableRemotePlayback
+              className="block h-[45vh] lg:h-[70vh] w-auto pointer-events-none"
+              style={{ touchAction: "pan-y" }}
+            />
+          )}
         </div>
       </div>
     </section>
