@@ -1,4 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function useHasHover() {
+  const [hasHover, setHasHover] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.matchMedia("(hover: hover)").matches;
+  });
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover)");
+    const handler = (e: MediaQueryListEvent) => setHasHover(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return hasHover;
+}
 
 type Status = "testing" | "dev" | "concept" | "soon";
 
@@ -117,27 +131,31 @@ function FeaturedProject() {
   const [screenFailed, setScreenFailed] = useState(false);
   const phoneRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const hasHover = useHasHover();
 
-  // Reset to default tilt when not hovering
-  const RESTING_TRANSFORM =
-    "rotateY(-18deg) rotateX(8deg) rotateZ(-2deg) translateZ(0)";
+  // Desktop: subtle 3D tilt that responds to cursor.
+  // Touch / no-hover devices: flat front view (no permanent tilt that
+  // makes the phone look misframed).
+  const RESTING_TRANSFORM = hasHover
+    ? "rotateY(-18deg) rotateX(8deg) rotateZ(-2deg) translateZ(0)"
+    : "rotateY(0) rotateX(0) rotateZ(0) translateZ(0)";
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!hasHover) return;
     const phone = phoneRef.current;
     const wrapper = wrapperRef.current;
     if (!phone || !wrapper) return;
     const rect = wrapper.getBoundingClientRect();
-    // Normalize cursor position to [-1, 1] relative to wrapper center
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    // Mix interactive tilt with the resting pose
-    const rotY = -18 + nx * 12; // -30 to -6
-    const rotX = 8 - ny * 10; // 18 to -2
+    const rotY = -18 + nx * 12;
+    const rotX = 8 - ny * 10;
     const rotZ = -2 + nx * 1.5;
     phone.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) rotateZ(${rotZ}deg) translateZ(0)`;
   };
 
   const handleMouseLeave = () => {
+    if (!hasHover) return;
     if (phoneRef.current) {
       phoneRef.current.style.transform = RESTING_TRANSFORM;
     }

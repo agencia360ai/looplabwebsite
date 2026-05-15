@@ -11,13 +11,70 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="image"
+      href="/frames/sensei/frame-030.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <title>Looplab — gamify your craft!</title>
+    <style>
+      /* Critical above-the-fold styles — render brand-gradient background
+         and hero headline immediately, before React hydrates. */
+      html,
+      body,
+      #root {
+        margin: 0;
+        min-height: 100%;
+        background: #000;
+        color: #fff;
+      }
+      .ll-init {
+        min-height: 100vh;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background:
+          radial-gradient(60% 60% at 15% 15%, rgba(168, 85, 247, 0.28), transparent 70%),
+          radial-gradient(60% 60% at 85% 85%, rgba(236, 72, 153, 0.28), transparent 70%),
+          radial-gradient(40% 40% at 50% 50%, rgba(251, 146, 60, 0.12), transparent 70%),
+          #000;
+      }
+      .ll-init__h {
+        max-width: 64rem;
+        margin: 0;
+        text-align: center;
+        color: #fff;
+        font: 500 clamp(2.5rem, 8vw, 5.5rem) / 0.95
+          "Readex Pro", system-ui, -apple-system, sans-serif;
+        letter-spacing: -0.04em;
+        text-transform: lowercase;
+      }
+      .ll-init__g {
+        background: linear-gradient(90deg, #a855f7 0%, #ec4899 55%, #fb923c 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      #root:not(:has(.ll-init)) {
+        background: transparent;
+      }
+    </style>
   </head>
   <body class="font-sora antialiased">
-    <div id="root"></div>
+    <div id="root">
+      <div class="ll-init" aria-hidden="true">
+        <h1 class="ll-init__h">
+          become the <span class="ll-init__g">main character</span> of your craft.
+        </h1>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
