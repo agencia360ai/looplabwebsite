@@ -53,15 +53,20 @@ export default function HeroSection() {
       className="relative min-h-screen w-full overflow-hidden bg-black font-readex flex items-center"
       aria-label="Looplab hero"
     >
-      {/* Ambient background glows — slow pulse, asynchronous */}
+      {/* Ambient background glows — all on the LEFT half of the section so
+          the right side (behind the video) stays pure black and the video's
+          black bg blends seamlessly with no visible seam. */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/25 blur-[140px] hero-glow-pulse" />
+        {/* Top-left purple — atmospheric depth above the headline */}
+        <div className="absolute -top-1/4 -left-1/4 w-[55%] h-[55%] rounded-full bg-[#a855f7]/40 blur-[140px] hero-glow-pulse" />
+        {/* Bottom-left pink — the dominant flare (moved from bottom-right) */}
         <div
-          className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px] hero-glow-pulse"
+          className="absolute -bottom-1/4 -left-1/4 w-[70%] h-[75%] rounded-full bg-[#ec4899]/45 blur-[160px] hero-glow-pulse"
           style={{ animationDelay: "-2s" }}
         />
+        {/* Mid-left orange — warmth between the purple + pink, completes the brand gradient */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[40%] rounded-full bg-[#fb923c]/10 blur-[120px] hero-glow-pulse"
+          className="absolute top-1/3 -left-1/3 w-[40%] h-[40%] rounded-full bg-[#fb923c]/25 blur-[140px] hero-glow-pulse"
           style={{ animationDelay: "-4s" }}
         />
       </div>
