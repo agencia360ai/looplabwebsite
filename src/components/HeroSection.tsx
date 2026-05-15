@@ -157,8 +157,11 @@ export default function HeroSection() {
         aria-label="Looplab hero"
       >
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/25 blur-[140px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px]" />
+          <div className="absolute -top-1/4 -left-1/4 w-[60%] h-[60%] rounded-full bg-[#a855f7]/25 blur-[140px] hero-glow-pulse" />
+          <div
+            className="absolute -bottom-1/4 -right-1/4 w-[60%] h-[60%] rounded-full bg-[#ec4899]/25 blur-[140px] hero-glow-pulse"
+            style={{ animationDelay: "-2s" }}
+          />
         </div>
         <div className="relative z-10 w-full px-6 md:px-10 pt-24 pb-10">
           <div className="max-w-5xl mx-auto text-center">
@@ -171,7 +174,7 @@ export default function HeroSection() {
               <img
                 src={POSTER_SRC}
                 alt="Looplab sensei mascot"
-                className="block h-auto w-auto max-h-[40vh] max-w-[80%]"
+                className="block h-auto w-auto max-h-[40vh] max-w-[80%] hero-breathe"
                 loading="eager"
                 fetchPriority="high"
               />

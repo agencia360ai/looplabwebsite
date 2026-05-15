@@ -80,6 +80,32 @@
   .border-brand-gradient {
     border-image: linear-gradient(90deg, #a855f7 0%, #ec4899 55%, #fb923c 100%) 1;
   }
+
+  /* Gentle breathing animation for the mobile static hero — subtle
+     vertical float + tiny scale, infinite loop. Pure CSS, no JS, no
+     scroll listener, safe on iOS Safari. */
+  @keyframes hero-breathe {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(0, -8px, 0) scale(1.018);
+    }
+  }
+  .hero-breathe {
+    animation: hero-breathe 4.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* Slow ambient glow pulse behind the mascot — adds depth. */
+  @keyframes hero-glow-pulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.85; }
+  }
+  .hero-glow-pulse {
+    animation: hero-glow-pulse 6s ease-in-out infinite;
+    will-change: opacity;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
