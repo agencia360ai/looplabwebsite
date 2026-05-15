@@ -124,7 +124,7 @@ export default function HeroSection() {
             <img
               src={POSTER_SRC}
               alt="Looplab sensei mascot"
-              className="block h-auto w-auto max-h-[45vh] lg:max-h-[70vh] max-w-[80%]"
+              className="block h-auto w-auto max-h-[40vh] lg:max-h-[65vh] max-w-[75%]"
               loading="eager"
               fetchPriority="high"
             />
@@ -139,7 +139,7 @@ export default function HeroSection() {
               disablePictureInPicture
               aria-hidden="true"
               tabIndex={-1}
-              className="block h-auto w-auto max-h-[45vh] lg:max-h-[70vh] max-w-[80%] pointer-events-none"
+              className="block h-auto w-auto max-h-[40vh] lg:max-h-[65vh] max-w-[75%] pointer-events-none"
               style={{ transform: "translate3d(0,0,0)" }}
             />
           )}
