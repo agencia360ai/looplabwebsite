@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+const VIDEO_SRC = "/sensei-loop.mp4";
 const POSTER_SRC = "/frames/sensei/frame-030.webp";
 
 const CYCLING_WORDS = [
@@ -117,15 +118,31 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Sensei mascot — breathing animation */}
+        {/* Sensei mascot — looping kata video on autoplay, static poster for reduced-motion */}
         <div className="lg:col-span-6 flex justify-center lg:justify-end">
-          <img
-            src={POSTER_SRC}
-            alt="Looplab sensei mascot"
-            className="block h-auto w-auto max-h-[45vh] lg:max-h-[70vh] max-w-[80%] hero-breathe"
-            loading="eager"
-            fetchPriority="high"
-          />
+          {prefersReducedMotion ? (
+            <img
+              src={POSTER_SRC}
+              alt="Looplab sensei mascot"
+              className="block h-auto w-auto max-h-[45vh] lg:max-h-[70vh] max-w-[80%]"
+              loading="eager"
+              fetchPriority="high"
+            />
+          ) : (
+            <video
+              src={VIDEO_SRC}
+              poster={POSTER_SRC}
+              autoPlay
+              muted
+              loop
+              playsInline
+              disablePictureInPicture
+              aria-hidden="true"
+              tabIndex={-1}
+              className="block h-auto w-auto max-h-[45vh] lg:max-h-[70vh] max-w-[80%] pointer-events-none"
+              style={{ transform: "translate3d(0,0,0)" }}
+            />
+          )}
         </div>
       </div>
     </section>
