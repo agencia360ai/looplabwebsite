@@ -40,11 +40,6 @@ export default function HeroSection() {
     return () => clearInterval(id);
   }, [prefersReducedMotion]);
 
-  const handleCTA = () => {
-    const el = document.querySelector("#lab");
-    el?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const word = prefersReducedMotion ? CYCLING_WORDS[0] : CYCLING_WORDS[wordIndex];
 
   return (
@@ -71,9 +66,11 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Layout: stacked on mobile, two-column on desktop */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-32 sm:pt-36 lg:pt-20 pb-12 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Title + cycling text + CTA */}
+      {/* Layout: stacked on mobile, two-column on desktop.
+          Tight mobile spacing so the headline + tagline + mascot all
+          fit in one viewport without the user scrolling. */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 pt-24 sm:pt-28 lg:pt-20 pb-6 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-12 items-center">
+        {/* Title + cycling tagline */}
         <div className="lg:col-span-6 text-center lg:text-left">
           <h1
             className="hero-title text-white text-[clamp(2.5rem,7vw,5.5rem)] font-medium leading-[0.92] tracking-[-0.045em] lowercase text-balance"
@@ -84,7 +81,7 @@ export default function HeroSection() {
           </h1>
 
           <div
-            className="mt-6 lg:mt-8 text-white text-[clamp(1.125rem,2vw,1.75rem)] font-medium lowercase tracking-[-0.015em]"
+            className="mt-4 lg:mt-8 text-white text-[clamp(1.125rem,2vw,1.75rem)] font-medium lowercase tracking-[-0.015em]"
           >
             {/* Fixed 2-line layout: prefix on line 1, cycling word on line 2.
                 Block elements force the linebreak regardless of word length so
@@ -99,30 +96,6 @@ export default function HeroSection() {
               {word}
             </div>
           </div>
-
-          <div className="mt-8 lg:mt-10">
-            <button
-              type="button"
-              onClick={handleCTA}
-              className="bg-brand-gradient text-white font-medium px-8 py-3.5 lg:px-9 lg:py-4 text-sm rounded-full hover:brightness-110 hover:shadow-lg hover:shadow-[#ec4899]/30 active:scale-[0.97] transition-all lowercase tracking-wide cursor-pointer inline-flex items-center gap-2"
-            >
-              check out more
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </button>
-          </div>
         </div>
 
         {/* Hero mascot — businessman → sensei transformation video, 8s loop.
@@ -135,7 +108,7 @@ export default function HeroSection() {
             <img
               src={SENSEI_POSTER}
               alt="Looplab sensei mascot"
-              className="block h-[45vh] lg:h-[70vh] w-auto"
+              className="block h-[40vh] lg:h-[70vh] w-auto"
               loading="eager"
               fetchPriority="high"
               style={{ boxShadow: "0 0 120px 40px #000" }}
@@ -153,7 +126,7 @@ export default function HeroSection() {
               aria-hidden="true"
               disablePictureInPicture
               disableRemotePlayback
-              className="block h-[45vh] lg:h-[70vh] w-auto pointer-events-none"
+              className="block h-[40vh] lg:h-[70vh] w-auto pointer-events-none"
               style={{
                 touchAction: "pan-y",
                 /* Bleed the pure-black bg past the video bounds so the

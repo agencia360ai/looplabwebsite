@@ -21,23 +21,14 @@ export default function GenreSection() {
               your real-life progress is the game.
             </h2>
             <ul className="flex flex-col gap-3 md:gap-4 text-ink/75 text-xl md:text-3xl font-light lowercase">
-              {LINES.map((line, i) => (
-                <li
-                  key={line}
-                  className="opacity-0 animate-fade-up"
-                  style={{ animationDelay: `${0.2 + i * 0.12}s` }}
-                >
-                  {line}
-                </li>
+              {LINES.map((line) => (
+                <li key={line}>{line}</li>
               ))}
             </ul>
           </div>
 
           {/* Transparent arrow graphic */}
-          <div
-            className="lg:col-span-5 relative flex justify-center opacity-0 animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
-          >
+          <div className="lg:col-span-5 relative flex justify-center">
             <img
               src="/graphics/genre.png"
               alt=""
