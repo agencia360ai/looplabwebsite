@@ -32,15 +32,18 @@ export default function HeroSection() {
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [wordIndex, setWordIndex] = useState(0);
 
+  // Cycle the word always — the change is content, not decoration, so it
+  // shouldn't be gated by prefers-reduced-motion. The fade-in animation
+  // around the change is already disabled for reduced-motion users via
+  // the global @media rule in index.css.
   useEffect(() => {
-    if (prefersReducedMotion) return;
     const id = setInterval(() => {
       setWordIndex((i) => (i + 1) % CYCLING_WORDS.length);
     }, 2500);
     return () => clearInterval(id);
-  }, [prefersReducedMotion]);
+  }, []);
 
-  const word = prefersReducedMotion ? CYCLING_WORDS[0] : CYCLING_WORDS[wordIndex];
+  const word = CYCLING_WORDS[wordIndex];
 
   return (
     <section
