@@ -5,7 +5,7 @@ export default function Privacy() {
     <LegalLayout
       eyebrow="legal"
       title="privacy policy."
-      lastUpdated="May 6, 2026"
+      lastUpdated="October 22, 2026"
     >
       <p>
         This Privacy Policy explains how <strong>Looplab Studio</strong>{" "}
@@ -97,6 +97,14 @@ export default function Privacy() {
           provided us with personal information, please contact us and we
           will delete it.
         </p>
+        <p>
+          Our CapyPray app is directed to children and is covered by its own
+          notice — see the{" "}
+          <a href="#capypray" className="underline hover:no-underline text-ink">
+            CapyPray Privacy Notice
+          </a>{" "}
+          below.
+        </p>
       </Section>
 
       <Section title="7. International transfers">
@@ -128,7 +136,170 @@ export default function Privacy() {
           .
         </p>
       </Section>
+
+      {/* App-specific notice. Linkable as /privacy#capypray for the App
+          Store / Google Play privacy-policy URL. */}
+      <section
+        id="capypray"
+        className="scroll-mt-32 border-t border-cream-border pt-12 space-y-6"
+      >
+        <div>
+          <h2 className="text-ink text-2xl md:text-3xl font-bold tracking-tight mb-2">
+            CapyPray (kids app) Privacy Notice
+          </h2>
+          <p className="text-ink-muted text-sm tracking-wide">
+            Effective date: October 22, 2026
+          </p>
+        </div>
+
+        <p>
+          CapyPray is a Christian prayer app for children ages 4–8 and their
+          families, offered by Five Bits, Inc. ("we", "us"). This notice
+          applies only to the CapyPray app. Our website practices are
+          described separately on this page, and the statement that our
+          website is not directed to children under 13 does not apply to
+          CapyPray.
+        </p>
+        <p>
+          CapyPray is directed to children. We designed it to comply with the
+          Children's Online Privacy Protection Act (COPPA), Apple's App Store
+          Kids Category rules and Google Play's Families policy.
+        </p>
+
+        <NoticeSection title="What stays on your device">
+          <p>
+            The app keeps the following only on your device. It is not sent
+            to us or to anyone else:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              a nickname for your child (optional; please use a nickname, not
+              a full name)
+            </li>
+            <li>your bedtime and reminder preference</li>
+            <li>the names or notes you add for "prayer people"</li>
+            <li>prayer progress, rewards, game levels and settings</li>
+          </ul>
+          <p>
+            There are no accounts, no sign-in and no cloud backup in this
+            version. Because we never receive this information, we cannot see
+            it, restore it or delete it for you. A parent can erase it at any
+            time in Parent Corner → "Delete my child's data". Deleting the app
+            also removes it.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="What we never collect">
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              We do not record or store your child's voice. The app does not
+              use the microphone; saying a prayer out loud is optional and
+              stays in the room.
+            </li>
+            <li>We do not collect photos, video, contacts or location.</li>
+            <li>
+              There are no ads, no chat, no social features and no links a
+              child can open without a grown-up.
+            </li>
+            <li>
+              We do not use analytics, advertising or tracking tools, and we
+              do not sell or share personal information.
+            </li>
+          </ul>
+        </NoticeSection>
+
+        <NoticeSection title="Subscriptions (for grown-ups)">
+          <p>
+            Purchases happen only behind a parental gate and are processed by
+            Apple or Google under their own privacy policies. We use
+            RevenueCat, a subscription service provider, to confirm purchases,
+            restore access and keep the subscription status current.
+          </p>
+          <p>
+            For that purpose only, RevenueCat receives purchase information
+            (such as the product, purchase date and store transaction
+            details), a random identifier created for the app installation,
+            and the basic technical data needed to deliver its service (such
+            as app version and platform). The identifier is not linked to your
+            child's name, prayers or progress, and the app has device
+            identifier collection turned off. Under COPPA, we use this
+            persistent identifier solely to support the internal operations of
+            the app (processing and maintaining a subscription), not to contact
+            anyone, build a profile or show advertising.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Notifications">
+          <p>
+            If a parent turns on the bedtime reminder, the device schedules it
+            locally. No notification data is sent to us.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Data retention">
+          <p>
+            Information on the device stays there until a parent deletes it
+            or deletes the app. Subscription records held by RevenueCat are
+            kept while they are needed to provide and support the subscription
+            and to meet legal and accounting obligations. Apple and Google keep
+            their own purchase records under their policies.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Parents' choices and rights">
+          <p>
+            You can review and delete your child's information in Parent
+            Corner at any time. You can also ask us to delete the subscription
+            records our service provider keeps for your purchase: email us
+            with the store order number so we can find them. We will respond
+            within 30 days. Please do not include sensitive information about
+            your child in messages to us.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Changes">
+          <p>
+            If we change how CapyPray handles information, we will update this
+            notice and its effective date before the change takes effect. If a
+            future version collects new personal information from children, we
+            will obtain verifiable parental consent first, as COPPA requires.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Contact">
+          <p>
+            Five Bits, Inc.
+            <br />
+            Avenida Samuel Lewis, Edificio Magel, Piso 2, Oficina C-1, Panama
+            City, Panama
+            <br />
+            <a
+              href="mailto:support@fivebits.gs"
+              className="underline hover:no-underline text-ink"
+            >
+              support@fivebits.gs
+            </a>
+          </p>
+        </NoticeSection>
+      </section>
     </LegalLayout>
+  );
+}
+
+function NoticeSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="pt-2">
+      <h3 className="text-ink text-lg md:text-xl font-semibold tracking-tight mb-3">
+        {title}
+      </h3>
+      <div className="space-y-3">{children}</div>
+    </section>
   );
 }
 

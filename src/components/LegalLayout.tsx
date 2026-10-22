@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -15,6 +16,13 @@ export default function LegalLayout({
   lastUpdated,
   children,
 }: Props) {
+  // The SPA renders the anchor after the browser's own fragment scroll has
+  // already given up, so jump to it ourselves (e.g. /privacy#capypray).
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+  }, [hash]);
+
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
