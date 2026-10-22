@@ -16,7 +16,11 @@ if ("scrollRestoration" in window.history) {
   window.history.scrollRestoration = "manual";
 }
 
-const forceScrollTop = () => window.scrollTo(0, 0);
+// Deep links (e.g. /privacy#capypray) must land on their anchor, so skip
+// the forced reset whenever the URL carries a hash.
+const forceScrollTop = () => {
+  if (!window.location.hash) window.scrollTo(0, 0);
+};
 forceScrollTop();
 window.addEventListener("pageshow", forceScrollTop);
 window.addEventListener("load", forceScrollTop);
