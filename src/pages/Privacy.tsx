@@ -5,7 +5,7 @@ export default function Privacy() {
     <LegalLayout
       eyebrow="legal"
       title="privacy policy."
-      lastUpdated="October 22, 2026"
+      lastUpdated="October 23, 2026"
     >
       <p>
         This Privacy Policy explains how <strong>Looplab Studio</strong>{" "}
@@ -97,14 +97,6 @@ export default function Privacy() {
           provided us with personal information, please contact us and we
           will delete it.
         </p>
-        <p>
-          Our CapyPray app is directed to children and is covered by its own
-          notice — see the{" "}
-          <a href="#capypray" className="underline hover:no-underline text-ink">
-            CapyPray Privacy Notice
-          </a>{" "}
-          below.
-        </p>
       </Section>
 
       <Section title="7. International transfers">
@@ -145,124 +137,177 @@ export default function Privacy() {
       >
         <div>
           <h2 className="text-ink text-2xl md:text-3xl font-bold tracking-tight mb-2">
-            CapyPray (kids app) Privacy Notice
+            CapyPray Privacy Notice
           </h2>
           <p className="text-ink-muted text-sm tracking-wide">
-            Effective date: October 22, 2026
+            Effective date: October 23, 2026
           </p>
         </div>
 
         <p>
-          CapyPray is a Christian prayer app for children ages 4–8 and their
-          families, offered by Five Bits, Inc. ("we", "us"). This notice
-          applies only to the CapyPray app. Our website practices are
-          described separately on this page, and the statement that our
-          website is not directed to children under 13 does not apply to
-          CapyPray.
+          CapyPray is a Christian prayer app for teens and adults, offered by
+          Five Bits, Inc. ("we", "us"). This notice applies only to the
+          CapyPray app. Our website practices are described separately on this
+          page.
         </p>
-        <p>
-          CapyPray is directed to children. We designed it to comply with the
-          Children's Online Privacy Protection Act (COPPA), Apple's App Store
-          Kids Category rules and Google Play's Families policy.
-        </p>
+
+        <NoticeSection title="Who CapyPray is for">
+          <p>
+            CapyPray is for people aged 13 and older. The app asks for your
+            birth year (and, only when needed, your birth month) before
+            anything else, and does not let anyone younger than 13 continue.
+            The answer is stored only on your device. If we learn that we have
+            information from someone under 13, we delete it.
+          </p>
+        </NoticeSection>
 
         <NoticeSection title="What stays on your device">
           <p>
             The app keeps the following only on your device. It is not sent
-            to us or to anyone else:
+            to us:
           </p>
           <ul className="list-disc pl-6 space-y-2">
+            <li>the name or nickname you give Capy (optional)</li>
+            <li>your night-prayer time and reminder preference</li>
+            <li>the names and notes you add for "prayer people"</li>
             <li>
-              a nickname for your child (optional; please use a nickname, not
-              a full name)
+              your prayer progress, streak, rewards, puzzle levels and settings
             </li>
-            <li>your bedtime and reminder preference</li>
-            <li>the names or notes you add for "prayer people"</li>
-            <li>prayer progress, rewards, game levels and settings</li>
+            <li>the result of the age screen</li>
           </ul>
           <p>
-            There are no accounts, no sign-in and no cloud backup in this
-            version. Because we never receive this information, we cannot see
-            it, restore it or delete it for you. A parent can erase it at any
-            time in Parent Corner → "Delete my child's data". Deleting the app
-            also removes it.
+            There are no accounts and no sign-in in this version. You can
+            erase this information at any time in Settings → "Delete my data".
+            Deleting the app also removes it.
           </p>
         </NoticeSection>
 
         <NoticeSection title="What we never collect">
           <ul className="list-disc pl-6 space-y-2">
             <li>
-              We do not record or store your child's voice. The app does not
-              use the microphone; saying a prayer out loud is optional and
-              stays in the room.
-            </li>
-            <li>We do not collect photos, video, contacts or location.</li>
-            <li>
-              There are no ads, no chat, no social features and no links a
-              child can open without a grown-up.
+              We do not record or store your voice. The app does not use the
+              microphone; saying a prayer out loud is optional.
             </li>
             <li>
-              We do not use analytics, advertising or tracking tools, and we
-              do not sell or share personal information.
+              We do not collect photos, video, contacts, precise location or
+              the content of your prayers.
             </li>
+            <li>There are no ads inside CapyPray and no chat.</li>
           </ul>
         </NoticeSection>
 
-        <NoticeSection title="Subscriptions (for grown-ups)">
+        <NoticeSection title="Understanding how the app is used (Google Analytics)">
           <p>
-            Purchases happen only behind a parental gate and are processed by
-            Apple or Google under their own privacy policies. We use
-            RevenueCat, a subscription service provider, to confirm purchases,
-            restore access and keep the subscription status current.
+            We use Google Analytics for Firebase, provided by Google, to
+            understand how CapyPray is used so we can improve it: which screens
+            are opened, which prayers and lessons are started and finished, how
+            far people get in the welcome steps, when the subscription offer is
+            viewed and when a purchase starts or succeeds, and basic technical
+            data such as device model, operating system, app version, language,
+            country and an app-instance identifier created by Firebase. It
+            starts only after the age screen. It does not use your advertising
+            identifier and is not used to personalize ads. Google processes
+            this information under its own policies (
+            <ExternalLink href="https://policies.google.com/privacy" />).
+            Analytics data is kept for up to 14 months.
           </p>
+        </NoticeSection>
+
+        <NoticeSection title="Measuring our ads (Meta)">
           <p>
-            For that purpose only, RevenueCat receives purchase information
-            (such as the product, purchase date and store transaction
-            details), a random identifier created for the app installation,
-            and the basic technical data needed to deliver its service (such
-            as app version and platform). The identifier is not linked to your
-            child's name, prayers or progress, and the app has device
-            identifier collection turned off. Under COPPA, we use this
-            persistent identifier solely to support the internal operations of
-            the app (processing and maintaining a subscription), not to contact
-            anyone, build a profile or show advertising.
+            We advertise CapyPray on Facebook and Instagram and use the Meta
+            (Facebook) SDK to learn which ads lead people to install and
+            subscribe. The SDK starts only after the age screen. It sends Meta:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              app events, such as installing and opening the app and finishing
+              the welcome steps
+            </li>
+            <li>
+              device and app information, such as device model, operating
+              system, app version, language, time zone and IP address
+            </li>
+            <li>
+              a device advertising identifier: on Android, your Advertising ID;
+              on iPhone and iPad, your IDFA only if you allow tracking when the
+              app asks (App Tracking Transparency). If you don't allow it, Meta
+              uses Apple's privacy-preserving measurement instead.
+            </li>
+          </ul>
+          <p>
+            Meta uses this information under its own Data Policy (
+            <ExternalLink href="https://www.facebook.com/privacy/policy" />) to
+            measure and improve our ads, and may combine it with information it
+            has about you to do so. You can limit this at any time: on iPhone
+            and iPad, Settings → Privacy &amp; Security → Tracking; on Android,
+            Settings → Google → Ads (delete or reset your Advertising ID); and
+            in your Facebook or Instagram ad preferences.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Subscriptions (RevenueCat)">
+          <p>
+            Purchases are processed by Apple or Google under their own privacy
+            policies. We use RevenueCat, a subscription service provider, to
+            confirm purchases, restore access and keep your subscription status
+            current. RevenueCat receives purchase information (product, price,
+            dates and store transaction details), a random identifier created
+            for your installation, device identifiers (after the age screen)
+            and basic technical data such as app version and platform. With the
+            Meta anonymous identifier described above, RevenueCat also reports
+            trials, purchases and renewals to Meta so we can measure which ads
+            lead to subscriptions.
           </p>
         </NoticeSection>
 
         <NoticeSection title="Notifications">
           <p>
-            If a parent turns on the bedtime reminder, the device schedules it
+            If you turn on the night-prayer reminder, your device schedules it
             locally. No notification data is sent to us.
+          </p>
+        </NoticeSection>
+
+        <NoticeSection title="Sharing and your choices">
+          <p>
+            We do not sell your personal information for money. Sharing device
+            identifiers and app activity with Meta for ad measurement may count
+            as "sharing" or "targeted advertising" under some U.S. state
+            privacy laws. You can opt out with the device settings above, or by
+            emailing us; we will honor opt-out requests and Global Privacy
+            Control signals where the law requires.
+          </p>
+          <p>
+            CapyPray is currently offered only in the United States. If we
+            offer it elsewhere, we will update this notice first, including any
+            consent the law there requires before ad measurement starts.
           </p>
         </NoticeSection>
 
         <NoticeSection title="Data retention">
           <p>
-            Information on the device stays there until a parent deletes it
-            or deletes the app. Subscription records held by RevenueCat are
-            kept while they are needed to provide and support the subscription
-            and to meet legal and accounting obligations. Apple and Google keep
-            their own purchase records under their policies.
+            Information on your device stays there until you delete it or
+            delete the app. RevenueCat keeps subscription records while they
+            are needed to provide and support your subscription and to meet
+            legal and accounting obligations. Meta keeps information under its
+            own policies. Apple and Google keep their own purchase records
+            under their policies.
           </p>
         </NoticeSection>
 
-        <NoticeSection title="Parents' choices and rights">
+        <NoticeSection title="Your requests">
           <p>
-            You can review and delete your child's information in Parent
-            Corner at any time. You can also ask us to delete the subscription
-            records our service provider keeps for your purchase: email us
-            with the store order number so we can find them. We will respond
-            within 30 days. Please do not include sensitive information about
-            your child in messages to us.
+            To ask us about your information, opt out, or delete the
+            subscription records our service providers keep, email us with
+            your store order number so we can find them. We will respond within
+            30 days, or sooner where the law requires.
           </p>
         </NoticeSection>
 
         <NoticeSection title="Changes">
           <p>
             If we change how CapyPray handles information, we will update this
-            notice and its effective date before the change takes effect. If a
-            future version collects new personal information from children, we
-            will obtain verifiable parental consent first, as COPPA requires.
+            notice and its effective date before the change takes effect.
           </p>
         </NoticeSection>
 
@@ -283,6 +328,19 @@ export default function Privacy() {
         </NoticeSection>
       </section>
     </LegalLayout>
+  );
+}
+
+function ExternalLink({ href }: { href: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline hover:no-underline text-ink break-words"
+    >
+      {href}
+    </a>
   );
 }
 
