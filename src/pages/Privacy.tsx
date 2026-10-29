@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LegalLayout from "@/components/LegalLayout";
 
 export default function Privacy() {
@@ -5,20 +6,31 @@ export default function Privacy() {
     <LegalLayout
       eyebrow="legal"
       title="privacy policy."
-      lastUpdated="October 23, 2026"
+      lastUpdated="October 29, 2026"
     >
+      <aside className="rounded-2xl border border-cream-border bg-cream-elevated px-5 py-4 md:px-6 md:py-5 text-ink font-normal">
+        Looking for CapyMath?{" "}
+        <Link
+          to="/capymath/privacy"
+          className="font-semibold underline hover:no-underline"
+        >
+          Read the CapyMath Privacy Notice
+        </Link>
+        . The website and CapyPray notices describe separate services.
+      </aside>
+
       <p>
         This Privacy Policy explains how <strong>Looplab Studio</strong>{" "}
         ("Looplab", "we", "us", or "our") collects, uses, and shares
         information when you visit our website at{" "}
-        <strong>looplab.studio</strong> (the "Site") or interact with us by
+        <strong>looplab.gg</strong> (the "Site") or interact with us by
         email.
       </p>
 
       <Section title="1. Information we collect">
         <p>
           <strong>Information you provide.</strong> When you contact us by
-          email (for example at <em>hello@looplab.studio</em>), we receive the
+          email (for example at <em>hello@looplab.gg</em>), we receive the
           contents of your message and any contact details you choose to
           share.
         </p>
@@ -84,7 +96,7 @@ export default function Privacy() {
           California), you may have rights to access, correct, delete, port,
           or restrict processing of your personal information, and to object
           to certain processing. To exercise these rights, email us at{" "}
-          <em>hello@looplab.studio</em>. We will respond within the
+          <em>hello@looplab.gg</em>. We will respond within the
           time-frames required by applicable law.
         </p>
       </Section>
@@ -120,10 +132,10 @@ export default function Privacy() {
         <p>
           Questions about this Policy or our practices? Email{" "}
           <a
-            href="mailto:hello@looplab.studio"
+            href="mailto:hello@looplab.gg"
             className="underline hover:no-underline text-ink"
           >
-            hello@looplab.studio
+            hello@looplab.gg
           </a>
           .
         </p>

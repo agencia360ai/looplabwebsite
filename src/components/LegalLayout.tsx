@@ -38,7 +38,7 @@ export default function LegalLayout({
           <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
             {eyebrow}
           </p>
-          <h1 className="text-ink text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.03em] lowercase mb-3">
+          <h1 className="text-ink text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.03em] mb-3">
             {title}
           </h1>
           <p className="text-ink-muted text-sm tracking-wide mb-12">
