@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+// "/#…" rather than "#…" so the links also work from the legal pages:
+// on the home page they stay same-page jumps.
 const NAV_LINKS = [
-  { label: "genre", href: "#genre" },
-  { label: "what we make", href: "#what" },
-  { label: "playbook", href: "#process" },
-  { label: "lab", href: "#lab" },
+  { label: "genre", href: "/#genre" },
+  { label: "what we make", href: "/#what" },
+  { label: "playbook", href: "/#process" },
+  { label: "apps", href: "/#apps" },
 ];
 
 export function LooplabMark({ className = "" }: { className?: string }) {
@@ -32,13 +34,28 @@ export function LooplabMark({ className = "" }: { className?: string }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Once the page scrolls, give the bar a backdrop so the logo doesn't
+  // float over section content.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-10 pt-4 md:pt-6">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-10 pt-4 md:pt-6 pb-3 md:pb-4 transition-colors duration-300 ${
+        scrolled
+          ? "bg-black/70 backdrop-blur-md border-b border-white/5"
+          : "border-b border-transparent"
+      }`}
+    >
       <div className="flex items-center justify-between gap-3">
         {/* Left: logo (transparent, no pill) */}
         <a
-          href="#top"
+          href="/#top"
           className="flex items-center px-2 py-2 hover:opacity-80 transition-opacity cursor-pointer"
           aria-label="Looplab home"
         >
@@ -92,16 +109,12 @@ export default function Navbar() {
           </button>
 
           {/* Right button */}
-          <button
-            type="button"
+          <a
+            href="/#join"
             className="bg-white text-black text-sm font-medium rounded-full px-5 md:px-6 py-2.5 md:py-3 hover:bg-neutral-200 transition-colors lowercase cursor-pointer"
-            onClick={() => {
-              const el = document.querySelector("#join");
-              el?.scrollIntoView({ behavior: "smooth" });
-            }}
           >
             say hi
-          </button>
+          </a>
         </div>
       </div>
 

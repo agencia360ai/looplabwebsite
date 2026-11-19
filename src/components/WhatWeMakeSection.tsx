@@ -53,7 +53,7 @@ export default function WhatWeMakeSection() {
 function PillarCard({ pillar }: { pillar: Pillar }) {
   return (
     <div className="group relative bg-cream border border-cream-border rounded-2xl overflow-hidden hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer">
-      <div className="aspect-[4/3] relative overflow-hidden">
+      <div className="aspect-[16/10] sm:aspect-[4/3] relative overflow-hidden">
         <img
           src={pillar.image}
           alt={pillar.alt}

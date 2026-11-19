@@ -3,7 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import GenreSection from "@/components/GenreSection";
 import WhatWeMakeSection from "@/components/WhatWeMakeSection";
 import PlaybookSection from "@/components/PlaybookSection";
-import LabSection from "@/components/LabSection";
+import AppsSection from "@/components/AppsSection";
 import JoinSection from "@/components/JoinSection";
 import Footer from "@/components/Footer";
 
@@ -15,7 +15,7 @@ export default function Index() {
       <GenreSection />
       <WhatWeMakeSection />
       <PlaybookSection />
-      <LabSection />
+      <AppsSection />
       <JoinSection />
       <Footer />
     </div>

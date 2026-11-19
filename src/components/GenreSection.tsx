@@ -34,6 +34,8 @@ export default function GenreSection() {
               alt=""
               aria-hidden="true"
               loading="lazy"
+              width={1024}
+              height={1024}
               className="w-full max-w-sm h-auto"
               style={{
                 filter: "drop-shadow(0 20px 50px rgba(168,85,247,0.25))",
