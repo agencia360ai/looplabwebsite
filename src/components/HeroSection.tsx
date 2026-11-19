@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import { APPS } from "@/components/AppsSection";
+
+// Apps that are actually in a store, for the hero's proof row.
+const LIVE_APPS = APPS.filter((app) => app.links.length > 0);
 
 // Hero mascot video — businessman → sensei transformation arc, 8s loop.
 // 720x1080 h.264, ~600 KB, pure-black background (matches hero bg-black
@@ -99,6 +103,32 @@ export default function HeroSection() {
               {word}
             </div>
           </div>
+
+          {/* Proof row: the live apps. Desktop only, so the mobile hero
+              still fits one screen. */}
+          <a
+            href="/#apps"
+            className="group mt-10 hidden lg:inline-flex items-center gap-4"
+          >
+            <span className="flex -space-x-3">
+              {LIVE_APPS.map((app) => (
+                <img
+                  key={app.name}
+                  src={app.icon}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  width={44}
+                  height={44}
+                  className="h-11 w-11 rounded-xl ring-2 ring-black transition-transform duration-300 group-hover:-translate-y-0.5"
+                />
+              ))}
+            </span>
+            <span className="text-white/70 text-sm font-light lowercase group-hover:text-white transition-colors">
+              {LIVE_APPS.length} apps live in the stores{" "}
+              <span aria-hidden="true">→</span>
+            </span>
+          </a>
         </div>
 
         {/* Hero mascot — businessman → sensei transformation video, 8s loop.

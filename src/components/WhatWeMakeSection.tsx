@@ -30,17 +30,19 @@ export default function WhatWeMakeSection() {
   return (
     <section
       id="what"
-      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream-elevated border-t border-cream-border overflow-hidden"
+      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream-elevated border-t border-cream-border overflow-clip-safe"
     >
       <div className="max-w-6xl mx-auto relative">
-        <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
-          what we make
-        </p>
-        <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.035em] lowercase mb-12 max-w-3xl">
-          improvement, but make it{" "}
-          <span className="text-brand-gradient">addictive.</span>
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="reveal">
+          <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            what we make
+          </p>
+          <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.035em] lowercase mb-12 max-w-3xl">
+            improvement, but make it{" "}
+            <span className="text-brand-gradient">addictive.</span>
+          </h2>
+        </div>
+        <div className="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {PILLARS.map((p) => (
             <PillarCard key={p.title} pillar={p} />
           ))}

@@ -36,28 +36,36 @@ export default function PlaybookSection() {
   return (
     <section
       id="process"
-      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream border-t border-cream-border overflow-hidden"
+      className="relative py-24 md:py-32 px-6 md:px-10 bg-cream border-t border-cream-border overflow-clip-safe"
     >
       <div className="max-w-6xl mx-auto relative">
-        <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
-          the playbook
-        </p>
-        <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.035em] lowercase mb-6 max-w-4xl">
-          we move like{" "}
-          <span className="text-brand-gradient">hypercasual.</span>
-        </h2>
-        <p className="text-ink-muted text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed lowercase">
-          test fast. iterate. keep what works. fourteen years of mobile games
-          taught us how to find a loop and feed it.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="reveal">
+          <p className="text-brand-gradient text-xs font-semibold tracking-[0.3em] uppercase mb-4">
+            the playbook
+          </p>
+          <h2 className="text-ink text-[clamp(2rem,5vw,4rem)] font-bold leading-[1.05] tracking-[-0.035em] lowercase mb-6 max-w-4xl">
+            we move like{" "}
+            <span className="text-brand-gradient">hypercasual.</span>
+          </h2>
+          <p className="text-ink-muted text-lg md:text-xl font-light max-w-2xl mb-16 leading-relaxed lowercase">
+            test fast. iterate. keep what works. fourteen years of mobile games
+            taught us how to find a loop and feed it.
+          </p>
+        </div>
+        <div className="reveal relative grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Track joining the steps (desktop): shows in the gaps between
+              cards, through the big numbers' line. */}
+          <div
+            aria-hidden="true"
+            className="hidden lg:block absolute left-10 right-10 top-[60px] h-[2px] bg-brand-gradient opacity-40"
+          />
           {STEPS.map((s) => (
             <div
               key={s.n}
-              className="group bg-cream-elevated border border-cream-border rounded-2xl p-7 hover:border-primary/40 hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer"
+              className="group relative bg-cream-elevated border border-cream-border rounded-2xl p-7 hover:border-primary/40 hover:shadow-lg hover:shadow-ink/5 hover:-translate-y-1 transition-all cursor-pointer"
             >
-              <div className="flex items-center justify-between mb-5">
-                <p className="text-brand-gradient text-xs font-semibold tracking-[0.25em]">
+              <div className="flex items-start justify-between mb-6">
+                <p className="text-brand-gradient text-5xl font-bold leading-none tracking-[-0.05em]">
                   {s.n}
                 </p>
                 <div className="text-ink/30 group-hover:text-ink/60 transition-colors">
