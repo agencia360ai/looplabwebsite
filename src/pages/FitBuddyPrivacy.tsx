@@ -26,9 +26,9 @@ export default function FitBuddyPrivacy() {
       <p>
         {APP_NAME} is a fitness and wellbeing companion app for adults: a
         virtual companion that suggests short routines, rest activities and
-        healthy habits, and that you can chat with. It is provided by Five
-        Bits, Inc. (“we”, “us”). This notice applies to the {APP_NAME} mobile
-        app. Our{" "}
+        healthy habits, and that you can chat with. It is provided by
+        Looplab Studio (“Looplab”, “we”, “us”). This notice applies to the{" "}
+        {APP_NAME} mobile app. Our{" "}
         <Link to="/privacy" className="underline hover:no-underline text-ink">
           website
         </Link>{" "}
@@ -237,7 +237,7 @@ export default function FitBuddyPrivacy() {
 
       <Section title="International processing and security">
         <p>
-          Five Bits, Inc. is based in Panama. Information may be processed in
+          Looplab Studio operates from Panama City, Panama. Information may be processed in
           Panama, the United States and other countries where our service
           providers (Railway, OpenRouter and AI model providers, RevenueCat and
           Meta) operate. Connections to our server are encrypted. Protect
@@ -256,9 +256,7 @@ export default function FitBuddyPrivacy() {
 
       <Section title="Contact">
         <p>
-          Five Bits, Inc.
-          <br />
-          Avenida Samuel Lewis, Edificio Magel, Piso 2, Oficina C-1
+          Looplab Studio
           <br />
           Panama City, Panama
           <br />
@@ -272,10 +270,10 @@ export default function FitBuddyPrivacy() {
 function SupportEmail() {
   return (
     <a
-      href="mailto:support@fivebits.gs"
+      href="mailto:hello@looplab.gg"
       className="underline hover:no-underline text-ink"
     >
-      support@fivebits.gs
+      hello@looplab.gg
     </a>
   );
 }
