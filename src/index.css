@@ -117,9 +117,63 @@
     will-change: opacity;
   }
 
+  /* Endless ticker: the track holds two identical halves, so sliding it
+     by -50% loops seamlessly. */
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+    will-change: transform;
+  }
+
+  /* Player-card HUD: a light sweep across the XP bar and a bobbing
+     "+xp" chip. */
+  @keyframes hud-shine {
+    0% { transform: translateX(-120%); }
+    60%, 100% { transform: translateX(320%); }
+  }
+  .hud-shine {
+    animation: hud-shine 3s ease-in-out infinite;
+  }
+  @keyframes hud-float {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-8px) rotate(-3deg); }
+  }
+  .hud-float {
+    animation: hud-float 3.6s ease-in-out infinite;
+  }
+
+  /* Clips glows like overflow:hidden, but without making the section a
+     scroll container (which would break the .reveal view timeline).
+     Browsers without overflow:clip keep the hidden fallback. */
+  .overflow-clip-safe {
+    overflow: hidden;
+    overflow: clip;
+  }
+}
+
+/* Scroll reveal: content eases up as it enters the viewport. Only where
+   scroll-driven animations exist; never starts fully invisible, so a
+   half-scrolled or unsupported state still shows everything. Don't put it
+   inside a horizontal scroller — the timeline would follow that scroller. */
+@supports (animation-timeline: view()) {
+  @keyframes reveal-up {
+    from { opacity: 0.25; transform: translateY(32px); }
+    to { opacity: 1; transform: none; }
+  }
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 160px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none !important;
+  }
   *,
   *::before,
   *::after {

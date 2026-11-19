@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 // "/#…" rather than "#…" so the links also work from the legal pages:
 // on the home page they stay same-page jumps.
 const NAV_LINKS = [
+  { label: "apps", href: "/#apps" },
   { label: "genre", href: "/#genre" },
   { label: "what we make", href: "/#what" },
   { label: "playbook", href: "/#process" },
-  { label: "apps", href: "/#apps" },
 ];
 
 export function LooplabMark({ className = "" }: { className?: string }) {
@@ -48,7 +48,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 px-4 md:px-10 pt-4 md:pt-6 pb-3 md:pb-4 transition-colors duration-300 ${
         scrolled
-          ? "bg-black/70 backdrop-blur-md border-b border-white/5"
+          ? "bg-black/85 backdrop-blur-md border-b border-white/5"
           : "border-b border-transparent"
       }`}
     >
