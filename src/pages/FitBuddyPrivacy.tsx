@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import LegalLayout from "@/components/LegalLayout";
 
 // Public store-listing privacy URL: looplab.gg/fitbuddy/privacy.
-// The app's store name is still provisional: change APP_NAME (and keep this
-// route working) when the commercial name is decided.
 // Text is published verbatim; edit wording only with sign-off.
-const APP_NAME = "Sporty";
+const APP_NAME = "FitBuddy";
 
 export default function FitBuddyPrivacy() {
   useEffect(() => {
