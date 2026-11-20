@@ -16,6 +16,13 @@ export default function Privacy() {
         >
           Read the CapyMath Privacy Notice
         </Link>
+        . Looking for FitBuddy?{" "}
+        <Link
+          to="/fitbuddy/privacy"
+          className="font-semibold underline hover:no-underline"
+        >
+          Read the FitBuddy Privacy Notice
+        </Link>
         . The website and CapyPray notices describe separate services.
       </aside>
 

@@ -4,6 +4,7 @@ import Index from "./pages/Index";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import CapyMathPrivacy from "./pages/CapyMathPrivacy";
+import FitBuddyPrivacy from "./pages/FitBuddyPrivacy";
 import NotFound from "./pages/NotFound";
 
 // The SPA renders its sections after the browser's own fragment scroll has
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/capymath/privacy" element={<CapyMathPrivacy />} />
+        <Route path="/fitbuddy/privacy" element={<FitBuddyPrivacy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
