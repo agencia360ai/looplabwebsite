@@ -21,7 +21,7 @@ export default function FitBuddyPrivacy() {
     <LegalLayout
       eyebrow="legal"
       title={`${APP_NAME} Privacy Notice`}
-      lastUpdated="November 19, 2026"
+      lastUpdated="November 20, 2026"
     >
       <p>
         {APP_NAME} is a fitness and wellbeing companion app for adults: a
@@ -53,9 +53,10 @@ export default function FitBuddyPrivacy() {
             memory is turned on. You can edit or delete each memory.
           </li>
           <li>
-            We use the Meta SDK to measure installations and app activity
+            We use Google Analytics for Firebase to understand how the app is
+            used, and the Meta SDK to measure installations and app activity
             associated with our Facebook and Instagram campaigns. You can turn
-            this off in Settings → Ad measurement.
+            both off in Settings → Analytics and ad measurement.
           </li>
           <li>
             Subscriptions are purchased through Google Play or the App Store and
@@ -154,6 +155,33 @@ export default function FitBuddyPrivacy() {
         </p>
       </Section>
 
+      <Section title="Usage analytics with Google (Firebase)">
+        <p>
+          The Android app includes Google Analytics for Firebase. We use it to
+          understand how {APP_NAME} is used and to improve it: sessions and how
+          long the app is used, how many people come back, which screens are
+          opened, and milestones such as finishing the first meeting with your
+          companion, starting or finishing a workout or rest, logging a meal
+          (only whether it was a photo or typed), sending a message (only
+          whether it was text or voice), seeing the {APP_NAME} Plus offer and
+          subscribing. These events do not include your messages, memories,
+          meal details, check-in answers or other health or wellbeing
+          information.
+        </p>
+        <p>
+          Firebase uses an app-instance identifier and receives device and app
+          information such as the device model, operating system, app version,
+          language and an approximate location derived from the IP address. We
+          configure it not to collect the advertising identifier and not to use
+          this information for ad personalization. See{" "}
+          <ExternalLink href="https://policies.google.com/technologies/partner-sites">
+            how Google uses information from apps that use its services
+          </ExternalLink>
+          . Analytics is on by default; turning off Settings → Analytics and ad
+          measurement stops collection from then on.
+        </p>
+      </Section>
+
       <Section title="Campaign measurement with Meta">
         <p>
           The Android app includes the Meta (Facebook) SDK. We use it to
@@ -186,10 +214,11 @@ export default function FitBuddyPrivacy() {
         </h3>
         <p>
           Measurement is on by default. You can turn it off at any time in
-          Settings → Ad measurement: from then on, the app does not start the
-          Meta SDK or send it events. Android’s advertising-ID controls can also
-          limit availability of the advertising identifier. The iOS version
-          does not include the Meta SDK at this time. Turning measurement off
+          Settings → Analytics and ad measurement: from then on, the app does
+          not start the Meta SDK or send it events, and Firebase stops
+          collecting. Android’s advertising-ID controls can also limit
+          availability of the advertising identifier. The iOS version does not
+          include the Meta SDK or Firebase at this time. Turning measurement off
           does not delete data already sent to Meta; use Meta’s privacy
           controls for requests about information Meta holds.
         </p>
@@ -229,9 +258,9 @@ export default function FitBuddyPrivacy() {
           rights available where you live, including rights concerning
           advertising-related sharing. Because there are no accounts, we may
           need details such as your subscription receipt to locate your record.
-          We respond within applicable legal time limits. Meta, RevenueCat and
-          the app stores handle the data they receive under their own
-          retention practices.
+          We respond within applicable legal time limits. Google, Meta,
+          RevenueCat and the app stores handle the data they receive under
+          their own retention practices.
         </p>
       </Section>
 
@@ -239,8 +268,8 @@ export default function FitBuddyPrivacy() {
         <p>
           Looplab Studio operates from Panama City, Panama. Information may be processed in
           Panama, the United States and other countries where our service
-          providers (Railway, OpenRouter and AI model providers, RevenueCat and
-          Meta) operate. Connections to our server are encrypted. Protect
+          providers (Railway, OpenRouter and AI model providers, RevenueCat,
+          Google and Meta) operate. Connections to our server are encrypted. Protect
           access to your device and its backups; no storage or communication
           method is completely secure.
         </p>
